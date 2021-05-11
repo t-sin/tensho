@@ -1,0 +1,22 @@
+{
+  "name": "tensho",
+  "version": "1.0.0",
+  "description": "The realization of the sky-rendered characters never be known in \"Mojika\" (『文字渦』) by Toh Enjoe.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel serve ./index.html"
+  },
+  "keywords": [
+    "game",
+    "invader game",
+    "character",
+    "ideograph",
+    "EnjoeToh"
+  ],
+  "author": "t-sin <shinichi.tanaka45@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
+  }
+}
