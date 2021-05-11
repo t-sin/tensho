@@ -20,4 +20,4 @@ TBD
 
 ## License
 
-TBD
+*tensho* is licensed under the ISC license. For more detail, see [LICENSE](LICENSE).
