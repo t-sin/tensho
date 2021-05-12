@@ -9,15 +9,12 @@ const setup_state = (game) => {
   state.move_to_right = true;
   state.number_of_invaders = 0;
 
-  const topleft_x = 120;
-  const topleft_y = 100;
-
   for (let y = 0; y < game.conf.rows; y++) {
     let row = [];
     for (let x = 0; x < game.conf.columns; x++) {
       const invader = {
-        x: topleft_x + 35 * x,
-        y: topleft_y + 30 * (5 - y),
+        x: game.conf.initial_topleft_x + game.conf.initial_space_x * x,
+        y: game.conf.initial_topleft_y + game.conf.initial_space_y * (5 - y),
         ch: '閏闖闡闕闊'[y],
         enabled: true,
       };
@@ -40,7 +37,7 @@ const is_last_invader = (game, state) => {
 };
 
 const move_all_invaders_down = (game, state) => {
-  state.invaders.flat().forEach((i) => { i.y += 20 });
+  state.invaders.flat().forEach((i) => { i.y += game.conf.move_speed_y });
 };
 
 const most_right_x = (game, state) => {
@@ -67,18 +64,18 @@ const move_invader = (game, state) => {
   let invader = current_invader(state);
 
   if (state.move_to_right) {
-    invader.x += 5;
+    invader.x += game.conf.move_speed_x;
     const x = most_right_x(game, state);
 
-    if (is_last_invader(game, state) && x > 540) {
+    if (is_last_invader(game, state) && x + 15 > game.conf.edge_right) {
       state.move_to_right = false;
       move_all_invaders_down(game, state);
     }
 
   } else {
-    invader.x -= 5;
+    invader.x -= game.conf.move_speed_x;
     const x = most_left_x(game, state);
-    if (is_last_invader(game, state) && x < 90) {
+    if (is_last_invader(game, state) && x + 5 < game.conf.edge_left) {
       state.move_to_right = true;
       move_all_invaders_down(game, state);
     }
