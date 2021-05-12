@@ -8,6 +8,10 @@ const setup = () => {
     canvas: canvas,
     ctx: ctx,
     scene: null,
+    conf: {
+      rows: 5,
+      columns: 11,
+    },
   };
   game.scene = invader.make_invader_scene(game);
   return game;
