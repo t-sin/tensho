@@ -37,6 +37,18 @@
         height: 480px;
         background-color: #eee;
       }
+      #tensho-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+      }
+      #tensho-game {
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
     </style>
   </head>
   <body>
@@ -44,6 +56,7 @@
       <h1>天書 - the sky-rendered characters</h1>
 
       <section id="tensho">
+        <canvas id="tensho-bg" width="640" height="480"></canvas>
         <canvas id="tensho-game" width="640" height="480"></canvas>
         <script src="./src/tensho.js"></script>
       </section>
