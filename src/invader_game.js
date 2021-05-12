@@ -1,24 +1,121 @@
-const setup_state = () => {
-  let state = {};
+const setup_state = (game) => {
+  let state = {
+    frame_count: 1,
+  };
 
   // initialize invaders
+  state.invader_index = { x: 0, y: 0 };
   state.invaders = []
+  state.move_to_right = true;
+  state.number_of_invaders = 0;
+
   const topleft_x = 120;
   const topleft_y = 100;
-  for (let y = 0; y < 5; y++) {
+
+  for (let y = 0; y < game.conf.rows; y++) {
     let row = [];
-    for (let x = 0; x < 11; x++) {
+    for (let x = 0; x < game.conf.columns; x++) {
       const invader = {
         x: topleft_x + 35 * x,
-        y: topleft_y + 35 * y,
+        y: topleft_y + 35 * (5 - y),
         ch: '閏闖闡闕闊'[y],
-        enable: true,
+        enabled: true,
       };
       row.push(invader);
+      state.number_of_invaders++;
     }
     state.invaders.push(row);
   }
   return state;
+};
+
+const current_invader = (state) => {
+  const { x, y } = state.invader_index;
+  return state.invaders[y][x];
+};
+
+const move_all_invaders_down = (game, state) => {
+  state.invaders.flat().forEach((i) => { i.y += 35 });
+};
+
+const most_right_idx = (game, state) => {
+  for (let y = 0; y < game.conf.rows; y++) {
+    for (let x = game.conf.columns - 1; x >= 0; x--) {
+      if (state.invaders[y][x].enabled) {
+        return { x: x, y: y };
+      }
+    }
+  }
+};
+
+const most_left_idx = (game, state) => {
+  for (let y = game.conf.rows - 1; y >= 0; y--) {
+    for (let x = 0; x < game.conf.columns; x++) {
+      if (state.invaders[y][x].enabled) {
+        return { x: x, y: y };
+      }
+    }
+  }
+};
+
+const column_has_same_x = (game, state, idx) => {
+  let x = state.invaders[idx.y][idx.x].x;
+  return state.invaders.reduce((acc, row) => (acc && (!row[idx.x].enabled || (row[idx.x].x == x))), true);
+};
+
+const move_invader = (game, state) => {
+  let invader = current_invader(state);
+
+  if (state.move_to_right) {
+    invader.x += 5;
+    const idx = most_right_idx(game, state);
+
+    if (column_has_same_x(game, state, idx) && invader.x > 540) {
+      state.move_to_right = false;
+      move_all_invaders_down(game, state);
+    }
+
+  } else {
+    invader.x -= 5;
+    const idx = most_left_idx(game, state);
+    if (column_has_same_x(game, state, idx) && invader.x < 90) {
+      state.move_to_right = true;
+      move_all_invaders_down(game, state);
+    }
+  }
+};
+
+const update_invader_index = (game, state) => {
+  const next_x = state.invader_index.x + 1;
+
+  if (next_x < game.conf.columns) {
+    state.invader_index.x = next_x;
+  } else {
+    state.invader_index.x = 0;
+    state.invader_index.y = (state.invader_index.y + 1) % game.conf.rows;
+  }
+};
+
+const proceed_invader_index = (game, state) => {
+  if (current_invader(state).enabled) {
+    update_invader_index(game, state);
+  }
+
+  while (!current_invader(state).enabled) {
+    if (state.number_of_invaders <= 0) {
+      break;
+    }
+    update_invader_index(game, state);
+  }
+};
+
+const proc = (game, state) => {
+  if (state.frame_count % 1 == 0) {
+    move_invader(game, state);
+    proceed_invader_index(game, state);
+  }
+
+  state.frame_count++;
 };
 
 const draw_ground = (game, state) => {
@@ -49,7 +146,7 @@ const draw_invaders = (game, state) => {
   game.ctx.fillStyle = '#000';
   for (let row of state.invaders) {
     for (let invader of row) {
-      if (invader.enable) {
+      if (invader.enabled) {
         game.ctx.fillText(invader.ch, invader.x, invader.y);
       }
     }
@@ -59,7 +156,7 @@ const draw_invaders = (game, state) => {
 const draw_ufo = (game, state) => {
   game.ctx.font = '18px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  game.ctx.fillText('円城', 100, 50);
+  //game.ctx.fillText('円城', 100, 50);
 };
 
 const draw = (game, state) => {
@@ -72,12 +169,13 @@ const draw = (game, state) => {
 };
 
 export const make_invader_scene = (game) => {
-  let state = setup_state();
+  let state = setup_state(game);
 
-  const proc = () => {
+  const fn = () => {
     draw(game, state);
+    proc(game, state);
 
-    window.requestAnimationFrame(proc);
+    window.requestAnimationFrame(fn);
   };
-  return proc;
+  return fn;
 };
