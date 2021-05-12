@@ -1,9 +1,4 @@
-const make_invader_scene = (game) => {
-  const proc = () => {
-    window.requestAnimationFrame(proc);
-  };
-  return proc;
-};
+const invader = require('./invader_game.js');
 
 const setup = () => {
   const canvas = document.getElementById('tensho-game');
@@ -14,7 +9,7 @@ const setup = () => {
     ctx: ctx,
     scene: null,
   };
-  game.scene = make_invader_scene(game);
+  game.scene = invader.make_invader_scene(game);
   return game;
 };
 
