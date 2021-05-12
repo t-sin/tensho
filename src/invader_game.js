@@ -34,33 +34,33 @@ const current_invader = (state) => {
   return state.invaders[y][x];
 };
 
+const is_last_invader = (game, state) => {
+  const { x, y } = state.invader_index;
+  return x == game.conf.columns - 1 && y == game.conf.rows - 1;
+};
+
 const move_all_invaders_down = (game, state) => {
   state.invaders.flat().forEach((i) => { i.y += 35 });
 };
 
-const most_right_idx = (game, state) => {
+const most_right_x = (game, state) => {
   for (let y = 0; y < game.conf.rows; y++) {
     for (let x = game.conf.columns - 1; x >= 0; x--) {
       if (state.invaders[y][x].enabled) {
-        return { x: x, y: y };
+        return state.invaders[y][x].x;
       }
     }
   }
 };
 
-const most_left_idx = (game, state) => {
+const most_left_x = (game, state) => {
   for (let y = game.conf.rows - 1; y >= 0; y--) {
     for (let x = 0; x < game.conf.columns; x++) {
       if (state.invaders[y][x].enabled) {
-        return { x: x, y: y };
+        return state.invaders[y][x].x;
       }
     }
   }
-};
-
-const column_has_same_x = (game, state, idx) => {
-  let x = state.invaders[idx.y][idx.x].x;
-  return state.invaders.reduce((acc, row) => (acc && (!row[idx.x].enabled || (row[idx.x].x == x))), true);
 };
 
 const move_invader = (game, state) => {
@@ -68,17 +68,17 @@ const move_invader = (game, state) => {
 
   if (state.move_to_right) {
     invader.x += 5;
-    const idx = most_right_idx(game, state);
+    const x = most_right_x(game, state);
 
-    if (column_has_same_x(game, state, idx) && invader.x > 540) {
+    if (is_last_invader(game, state) && x > 540) {
       state.move_to_right = false;
       move_all_invaders_down(game, state);
     }
 
   } else {
     invader.x -= 5;
-    const idx = most_left_idx(game, state);
-    if (column_has_same_x(game, state, idx) && invader.x < 90) {
+    const x = most_left_x(game, state);
+    if (is_last_invader(game, state) && x < 90) {
       state.move_to_right = true;
       move_all_invaders_down(game, state);
     }
