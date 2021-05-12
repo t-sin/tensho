@@ -17,7 +17,7 @@ const setup_state = (game) => {
     for (let x = 0; x < game.conf.columns; x++) {
       const invader = {
         x: topleft_x + 35 * x,
-        y: topleft_y + 35 * (5 - y),
+        y: topleft_y + 30 * (5 - y),
         ch: '閏闖闡闕闊'[y],
         enabled: true,
       };
@@ -40,7 +40,7 @@ const is_last_invader = (game, state) => {
 };
 
 const move_all_invaders_down = (game, state) => {
-  state.invaders.flat().forEach((i) => { i.y += 35 });
+  state.invaders.flat().forEach((i) => { i.y += 20 });
 };
 
 const most_right_x = (game, state) => {
