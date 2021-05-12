@@ -156,6 +156,20 @@ const draw_ufo = (game, state) => {
   //game.ctx.fillText('円城', 100, 50);
 };
 
+const draw_debug = (game, state) => {
+  game.ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
+
+  game.ctx.beginPath();
+  game.ctx.moveTo(game.conf.edge_right + 0.5, 0);
+  game.ctx.lineTo(game.conf.edge_right + 0.5, 500);
+  game.ctx.stroke();
+
+  game.ctx.beginPath();
+  game.ctx.moveTo(game.conf.edge_left + 0.5, 0);
+  game.ctx.lineTo(game.conf.edge_left + 0.5, 500);
+  game.ctx.stroke();
+};
+
 const draw = (game, state) => {
   game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
   draw_ground(game, state);
@@ -163,6 +177,10 @@ const draw = (game, state) => {
   draw_torchka(game, state);
   draw_invaders(game, state);
   draw_ufo(game, state);
+
+  if (game.debug) {
+    draw_debug(game, state);
+  }
 };
 
 export const make_invader_scene = (game) => {

@@ -8,6 +8,7 @@ const setup = () => {
     canvas: canvas,
     ctx: ctx,
     scene: null,
+    debug: true,
     conf: {
       initial_topleft_x: 120,
       initial_topleft_y: 100,
