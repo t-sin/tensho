@@ -51,6 +51,7 @@ const setup = () => {
       edge_right: 570,
       rows: 5,
       columns: 11,
+      cannon_speed_x: 5,
       invader_move_speed_x: 5,
       invader_move_speed_y: 20,
       invader_move_per_frames: 2,

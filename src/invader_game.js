@@ -3,6 +3,9 @@ const setup_state = (game) => {
     frame_count: 1,
   };
 
+  // initialize cannon
+  state.cannon_x = 320;
+
   // initialize invaders
   state.invader_index = { x: 0, y: 0 };
   state.invaders = []
@@ -106,8 +109,20 @@ const proceed_invader_index = (game, state) => {
   }
 };
 
+const move_cannon = (game, state) => {
+  if (game.input.left) {
+    state.cannon_x -= game.conf.cannon_speed_x;
+  }
+
+  if (game.input.right) {
+    state.cannon_x += game.conf.cannon_speed_x;
+  }
+};
+
 const proc = (game, state) => {
-  if (state.frame_count % game.conf.move_per_frames == 0) {
+  move_cannon(game, state);
+
+  if (state.frame_count % game.conf.invader_move_per_frames == 0) {
     move_invader(game, state);
     proceed_invader_index(game, state);
   }
@@ -127,7 +142,7 @@ const draw_ground = (game, state) => {
 const draw_cannon = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  game.ctx.fillText('凸', 320, 430);
+  game.ctx.fillText('凸', state.cannon_x - 5, 430);
 };
 
 const draw_torchka = (game, state) => {
