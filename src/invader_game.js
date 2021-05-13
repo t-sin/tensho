@@ -6,11 +6,11 @@ const INVADER_ALIVE = 'alive';
 const INVADER_DYING = 'dying';
 
 const invader_anim_pattern = [
-  "余全",
-  "余全",
-  "余全",
-  "余全",
-  "余全",
+  "閧闘",
+  "莔莤",
+  "莔莤",
+  "莔莤",
+  "余会",
 ];
 
 const setup_state = (game) => {
