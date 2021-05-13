@@ -144,11 +144,11 @@ const proc_dying_invaders = (game, state) => {
 };
 
 const move_cannon = (game, state) => {
-  if (game.input.left) {
+  if (game.input.left && state.cannon_x > game.conf.edge_left - 5) {
     state.cannon_x -= game.conf.cannon_speed_x;
   }
 
-  if (game.input.right) {
+  if (game.input.right && state.cannon_x < game.conf.edge_right - 5) {
     state.cannon_x += game.conf.cannon_speed_x;
   }
 };
