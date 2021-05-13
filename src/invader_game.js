@@ -1,6 +1,17 @@
 const CANNON_SHOT_DISABLED = 'disable';
 const CANNON_SHOT_MOVING = 'moving';
 const CANNON_SHOT_DYING = 'dying';
+const INVADER_DISABLED = 'disabled';
+const INVADER_ALIVE = 'alive';
+const INVADER_DYING = 'dying';
+
+const invader_anim_pattern = [
+  "余全",
+  "余全",
+  "余全",
+  "余全",
+  "余全",
+];
 
 const setup_state = (game) => {
   let state = {
@@ -23,8 +34,10 @@ const setup_state = (game) => {
       const invader = {
         x: game.conf.initial_topleft_x + game.conf.initial_space_x * x,
         y: game.conf.initial_topleft_y + game.conf.initial_space_y * (5 - y),
-        ch: '閏闖闡闕闊'[y],
-        enabled: true,
+        char: invader_anim_pattern[y],
+        current_char: 0,
+        state: INVADER_ALIVE,
+        started_at: 0,
       };
       row.push(invader);
       state.number_of_invaders++;
@@ -51,7 +64,7 @@ const move_all_invaders_down = (game, state) => {
 const most_right_x = (game, state) => {
   for (let y = 0; y < game.conf.rows; y++) {
     for (let x = game.conf.columns - 1; x >= 0; x--) {
-      if (state.invaders[y][x].enabled) {
+      if (state.invaders[y][x].state == INVADER_ALIVE) {
         return state.invaders[y][x].x;
       }
     }
@@ -61,7 +74,7 @@ const most_right_x = (game, state) => {
 const most_left_x = (game, state) => {
   for (let y = game.conf.rows - 1; y >= 0; y--) {
     for (let x = 0; x < game.conf.columns; x++) {
-      if (state.invaders[y][x].enabled) {
+      if (state.invaders[y][x].state == INVADER_ALIVE) {
         return state.invaders[y][x].x;
       }
     }
@@ -70,6 +83,8 @@ const most_left_x = (game, state) => {
 
 const move_invader = (game, state) => {
   let invader = current_invader(state);
+
+  invader.current_char = (invader.current_char + 1) % invader.char.length;
 
   if (state.move_to_right) {
     invader.x += game.conf.invader_move_speed_x;
@@ -102,15 +117,29 @@ const update_invader_index = (game, state) => {
 };
 
 const proceed_invader_index = (game, state) => {
-  if (current_invader(state).enabled) {
+  if (current_invader(state).state == INVADER_ALIVE) {
     update_invader_index(game, state);
   }
 
-  while (!current_invader(state).enabled) {
+  while (current_invader(state).state != INVADER_ALIVE) {
     if (state.number_of_invaders <= 0) {
       break;
     }
     update_invader_index(game, state);
+  }
+};
+
+const proc_dying_invaders = (game, state) => {
+  for (let y = 0; y < game.conf.rows; y++) {
+    for (let x = 0; x < game.conf.columns; x++) {
+      let invader = state.invaders[y][x];
+
+      if (invader.state == INVADER_DYING) {
+        if (state.frame_count > invader.started_at + 8) {
+          invader.state = INVADER_DISABLED;
+        }
+      }
+    }
   }
 };
 
@@ -153,6 +182,13 @@ const proc = (game, state) => {
   move_cannon(game, state);
   move_cannon_shot(game, state);
 
+  // dying test
+  //if (state.frame_count == 100) {
+  //  state.invaders[2][5].state = INVADER_DYING;
+  //  state.invaders[2][5].started_at = state.frame_count;
+  //}
+
+  proc_dying_invaders(game, state);
   if (state.frame_count % game.conf.invader_move_per_frames == 0) {
     move_invader(game, state);
     proceed_invader_index(game, state);
@@ -204,10 +240,20 @@ const draw_torchka = (game, state) => {
 const draw_invaders = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
+
   for (let row of state.invaders) {
     for (let invader of row) {
-      if (invader.enabled) {
-        game.ctx.fillText(invader.ch, invader.x, invader.y);
+      if (invader.state == INVADER_ALIVE) {
+        game.ctx.fillText(invader.char[invader.current_char], invader.x, invader.y);
+
+      } else if (invader.state == INVADER_DYING) {
+        let ch;
+        if (state.frame_count < invader.started_at + 5) {
+          ch = '＊';
+        } else {
+          ch = '⁂';
+        }
+        game.ctx.fillText(ch, invader.x, invader.y);
       }
     }
   }
