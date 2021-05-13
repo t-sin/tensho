@@ -223,15 +223,21 @@ const draw_cannon = (game, state) => {
 const draw_cannon_shot = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  const x = state.cannon_shot.x - 5;
-  const y = state.cannon_shot.y + 25;
+  const cx = state.cannon_shot.x - 5;
+  const cy = state.cannon_shot.y + 25;
 
   switch (state.cannon_shot.state) {
     case CANNON_SHOT_MOVING:
-      game.ctx.fillText('｜', x, y);
+      game.ctx.fillText('｜', cx, cy);
+
+      if (game.debug) {
+        const { offset_x, offset_y, w, h } = game.conf.shot;
+        game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+        game.ctx.fillRect(cx + offset_x , cy - offset_y, w, h);
+      }
       break;
     case CANNON_SHOT_DYING:
-      game.ctx.fillText('⺣', x, y);
+      game.ctx.fillText('⺣', cx, cy);
       break;
   }
 };

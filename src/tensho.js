@@ -21,6 +21,12 @@ const conf = {
     offset: { x: 3, y: 20 },
     size: { w: 20, h: 20 },
   },
+  shot: {
+    offset_x: 10,
+    offset_y: 20,
+    w: 3,
+    h: 20,
+  },
 };
 
 const setup = () => {
