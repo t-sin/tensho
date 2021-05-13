@@ -51,9 +51,9 @@ const setup = () => {
       edge_right: 570,
       rows: 5,
       columns: 11,
-      move_speed_x: 5,
-      move_speed_y: 20,
-      move_per_frames: 2,
+      invader_move_speed_x: 5,
+      invader_move_speed_y: 20,
+      invader_move_per_frames: 2,
     },
   };
   game.scene = invader.make_invader_scene(game);

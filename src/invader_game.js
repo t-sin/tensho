@@ -37,7 +37,7 @@ const is_last_invader = (game, state) => {
 };
 
 const move_all_invaders_down = (game, state) => {
-  state.invaders.flat().forEach((i) => { i.y += game.conf.move_speed_y });
+  state.invaders.flat().forEach((i) => { i.y += game.conf.invader_move_speed_y });
 };
 
 const most_right_x = (game, state) => {
@@ -64,7 +64,7 @@ const move_invader = (game, state) => {
   let invader = current_invader(state);
 
   if (state.move_to_right) {
-    invader.x += game.conf.move_speed_x;
+    invader.x += game.conf.invader_move_speed_x;
     const x = most_right_x(game, state);
 
     if (is_last_invader(game, state) && x + 15 > game.conf.edge_right) {
@@ -73,7 +73,7 @@ const move_invader = (game, state) => {
     }
 
   } else {
-    invader.x -= game.conf.move_speed_x;
+    invader.x -= game.conf.invader_move_speed_x;
     const x = most_left_x(game, state);
     if (is_last_invader(game, state) && x + 5 < game.conf.edge_left) {
       state.move_to_right = true;
