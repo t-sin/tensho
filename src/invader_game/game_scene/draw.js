@@ -102,7 +102,7 @@ const draw_debug = (game, state) => {
 right=${game.input.right}
 shot=${game.input.shot}`, 0, 10);
 
-  game.ctx.fillText(`num=${state.number_of_invaders}`, 570, 10);
+  game.ctx.fillText(`num=${state.invaders.number_of_alive} frames=${state.frames}`, 500, 10);
 };
 
 export const proc = (game, state) => {
