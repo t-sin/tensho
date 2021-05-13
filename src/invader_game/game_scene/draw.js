@@ -51,8 +51,10 @@ const draw_torchka = (game, state) => {
 const draw_invaders = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
 
-  for (let row of state.invaders.array) {
-    for (let invader of row) {
+  for (let j = 0; j < constant.config.rows; j++) {
+    for (let i = 0; i < constant.config.columns; i++) {
+      let invader = state.invaders.array[j * constant.config.columns + i];
+
       game.ctx.fillStyle = '#000';
       if (invader.state.kind == constant.INVADER_ALIVE) {
         const ch = invader.char[invader.current_char];

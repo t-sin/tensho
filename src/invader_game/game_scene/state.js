@@ -28,7 +28,6 @@ export const setup_state = () => {
   const iy = constant.config.invaders.initial.topleft.y;
 
   for (let j = 0; j < constant.config.rows; j++) {
-    let row = [];
     for (let i = 0; i < constant.config.columns; i++) {
       const invader = {
         x: ix + constant.config.invaders.initial.offset.x * i,
@@ -40,10 +39,10 @@ export const setup_state = () => {
           changed_at: 0,
         },
       };
-      row.push(invader);
+      state.invaders.array.push(invader);
       state.invaders.number_of_alive++;
     }
-    state.invaders.array.push(row);
+
   }
 
   console.table(state);
