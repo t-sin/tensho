@@ -11,26 +11,26 @@ const setup = () => {
   };
   document.addEventListener('keydown', (e) => {
     switch (e.code) {
-      case 'KeyA':
+      case 'KeyH':
         input.left = true;
         break;
-      case 'KeyD':
+      case 'KeyL':
         input.right = true;
         break;
-      case 'KeyJ':
+      case 'KeyS':
         input.shot = true;
         break;
     }
   });
   document.addEventListener('keyup', (e) => {
     switch (e.code) {
-      case 'KeyA':
+      case 'KeyH':
         input.left = false;
         break;
-      case 'KeyD':
+      case 'KeyL':
         input.right = false;
         break;
-      case 'KeyJ':
+      case 'KeyS':
         input.shot = false;
         break;
     }
