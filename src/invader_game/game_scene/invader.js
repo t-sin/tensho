@@ -12,6 +12,10 @@ const nth_in_array = (i, j) => {
   return j * constant.config.columns + i;
 };
 
+
+};
+const { reset_living_checker, get_living_idx, check_living } = make_living_checker();
+
 const should_move = (i, j, state) => {
   const nth = nth_in_array(i, j)
   const now_is_the_time = state.frames % constant.config.invaders.move_per_frames == 0;
@@ -19,19 +23,9 @@ const should_move = (i, j, state) => {
   return state.invaders.current == nth && now_is_the_time;
 };
 
-const should_animate = (i, j, state) => {
-  const nth = nth_in_array(i, j)
-  const now_is_the_time = state.frames % constant.config.invaders.move_per_frames == 0;
-
-  return state.invaders.current == nth && now_is_the_time;
-};
-
 const proc_one_invader = (state, i, j, invader) => {
-  if (should_animate(i, j, state)) {
-    invader.current_char = (invader.current_char + 1) % invader.char.length;
-  }
-
   if (should_move(i, j, state)) {
+    invader.current_char = (invader.current_char + 1) % invader.char.length;
     if (state.invaders.direction_right) {
       invader.x += constant.config.invaders.speed.x;
     } else {
