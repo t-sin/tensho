@@ -20,7 +20,7 @@ export const setup_state = () => {
   state.invaders = {
     array: [],
     number_of_alive: 0,
-    current: { i: 0, j: 0 },
+    current: 0,
     direction_right: true,
   };
 
