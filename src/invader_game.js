@@ -1,6 +1,6 @@
-const CANNON_SHOT_DISABLE = 'disable';
+const CANNON_SHOT_DISABLED = 'disable';
 const CANNON_SHOT_MOVING = 'moving';
-const CANNON_SHOT_BURSTING = 'bursting';
+const CANNON_SHOT_DYING = 'dying';
 
 const setup_state = (game) => {
   let state = {
@@ -9,7 +9,7 @@ const setup_state = (game) => {
 
   // initialize cannon
   state.cannon_x = game.conf.initial_cannon_x;
-  state.cannon_shot = { x: 0, y: 0, state: CANNON_SHOT_DISABLE, on_state: 0 };
+  state.cannon_shot = { x: 0, y: 0, state: CANNON_SHOT_DISABLED, on_state: 0 };
 
   // initialize invaders
   state.invader_index = { x: 0, y: 0 };
@@ -126,7 +126,7 @@ const move_cannon = (game, state) => {
 
 const move_cannon_shot = (game, state) => {
   let shot = state.cannon_shot;
-  if (game.input.shot && shot.state == CANNON_SHOT_DISABLE) {
+  if (game.input.shot && shot.state == CANNON_SHOT_DISABLED) {
     shot.x = state.cannon_x;
     shot.y = game.conf.initial_cannon_y - 35;
     shot.state = CANNON_SHOT_MOVING;
@@ -136,14 +136,14 @@ const move_cannon_shot = (game, state) => {
     case CANNON_SHOT_MOVING:
     shot.y -= 10;
     if (shot.y < game.conf.edge_top - 35) {
-      shot.state = CANNON_SHOT_BURSTING;
+      shot.state = CANNON_SHOT_DYING;
       shot.on_state = state.frame_count;
     }
     break;
 
-    case CANNON_SHOT_BURSTING:
+    case CANNON_SHOT_DYING:
       if (state.frame_count > shot.on_state + 10) {
-        shot.state = CANNON_SHOT_DISABLE;
+        shot.state = CANNON_SHOT_DISABLED;
       }
     break;
   }
@@ -187,7 +187,7 @@ const draw_cannon_shot = (game, state) => {
     case CANNON_SHOT_MOVING:
       game.ctx.fillText('｜', x, y);
       break;
-    case CANNON_SHOT_BURSTING:
+    case CANNON_SHOT_DYING:
       game.ctx.fillText('⺣', x, y);
       break;
   }
