@@ -105,7 +105,7 @@ shot=${game.input.shot}`, 0, 10);
   game.ctx.fillText(`num=${state.number_of_invaders}`, 570, 10);
 };
 
-export const draw = (game, state) => {
+export const proc = (game, state) => {
   game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
   draw_ground(game, state);
   draw_cannon(game, state);

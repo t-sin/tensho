@@ -7,7 +7,7 @@ export const make_game_scene = (game) => {
   let game_state = state.setup_state();
 
   const fn = () => {
-    draw.draw(game, game_state);
+    draw.proc(game, game_state);
     //proc(game, game_state);
 
     //window.requestAnimationFrame(fn);
