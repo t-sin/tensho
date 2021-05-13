@@ -1,6 +1,8 @@
 const constant = require('./constant.js');
 const state = require('./state.js');
 const draw = require('./draw.js');
+//const cannon = require('./cannon.js');
+const invader = require('./invader.js');
 
 export const make_game_scene = (game) => {
   game.conf = constant.config;
@@ -8,6 +10,7 @@ export const make_game_scene = (game) => {
 
   const fn = () => {
     draw.proc(game, game_state);
+    invader.proc(game, game_state);
     //proc(game, game_state);
 
     //window.requestAnimationFrame(fn);
