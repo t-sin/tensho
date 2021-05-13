@@ -52,33 +52,66 @@ const current_invader = (state) => {
   return state.invaders[y][x];
 };
 
-const is_last_invader = (game, state) => {
-  const { x, y } = state.invader_index;
-  return x == game.conf.columns - 1 && y == game.conf.rows - 1;
-};
-
 const move_all_invaders_down = (game, state) => {
-  state.invaders.flat().forEach((i) => { i.y += game.conf.invader_move_speed_y });
+  for (let row of state.invaders) {
+    for (let invader of row) {
+      invader.y += game.conf.invader_move_speed_y;
+    }
+  }
 };
 
-const most_right_x = (game, state) => {
-  for (let y = 0; y < game.conf.rows; y++) {
+const is_last_invader = (game, state) => {
+  for (let y = game.conf.rows - 1; y >= 0; y--) {
     for (let x = game.conf.columns - 1; x >= 0; x--) {
       if (state.invaders[y][x].state == INVADER_ALIVE) {
-        return state.invaders[y][x].x;
+        return true;
       }
     }
   }
+  return false;
+}
+
+const most_right_invader = (game, state) => {
+  let most_right_in_rows = [];
+
+  for (let x = game.conf.columns - 1; x >= 0; x--) {
+    for (let y = 0; y < game.conf.rows; y++) {
+      if (state.invaders[y][x].state == INVADER_ALIVE) {
+        most_right_in_rows.push(state.invaders[y][x]);
+        break;
+      }
+    }
+  }
+
+  if (most_right_in_rows.length == 0) {
+    return -1;
+  }
+
+  const more_right = (a, b) => a.x > b.x ? a : b;
+  const most_right = most_right_in_rows.reduce(more_right);
+  //console.log(most_right, most_right_in_rows);
+  return most_right;
 };
 
-const most_left_x = (game, state) => {
-  for (let y = game.conf.rows - 1; y >= 0; y--) {
-    for (let x = 0; x < game.conf.columns; x++) {
+const most_left_invader = (game, state) => {
+  let most_left_in_rows = [];
+
+  for (let x = 0; x < game.conf.columns; x++) {
+    for (let y = 0; y < game.conf.rows; y++) {
       if (state.invaders[y][x].state == INVADER_ALIVE) {
-        return state.invaders[y][x].x;
+        most_left_in_rows.push(state.invaders[y][x]);
+        break;
       }
     }
   }
+
+  if (most_left_in_rows.length == 0) {
+    return -1;
+  }
+
+  const more_left = (a, b) => a.x < b.x ? a : b;
+  const most_left = most_left_in_rows.reduce(more_left);
+  return most_left;
 };
 
 const move_invader = (game, state) => {
@@ -88,19 +121,20 @@ const move_invader = (game, state) => {
 
   if (state.move_to_right) {
     invader.x += game.conf.invader_move_speed_x;
-    const x = most_right_x(game, state);
 
-    if (is_last_invader(game, state) && x + 15 > game.conf.edge_right) {
-      state.move_to_right = false;
+    const most_right = most_right_invader(game, state);
+    if (is_last_invader(game, state) && most_right.x + 15 > game.conf.edge_right) {
       move_all_invaders_down(game, state);
+      state.move_to_right = false;
     }
 
   } else {
     invader.x -= game.conf.invader_move_speed_x;
-    const x = most_left_x(game, state);
-    if (is_last_invader(game, state) && x + 5 < game.conf.edge_left) {
-      state.move_to_right = true;
+
+    const most_left = most_left_invader(game, state);
+    if (is_last_invader(game, state) && most_left.x + 5 < game.conf.edge_left) {
       move_all_invaders_down(game, state);
+      state.move_to_right = true;
     }
   }
 };
@@ -178,21 +212,62 @@ const move_cannon_shot = (game, state) => {
   }
 };
 
+const detect_hit_by_cannon_shot = (game, state) => {
+  let shot = state.cannon_shot;
+
+  if (shot.state == CANNON_SHOT_MOVING) {
+    for (let row of state.invaders) {
+      for (let invader of row) {
+        if (invader.state != INVADER_ALIVE) {
+          break;
+        }
+
+        const shot_hit_x = shot.x + game.conf.shot.offset.x;
+        const shot_hit_y = shot.y;
+        const invader_hit = {
+          x1: invader.x + game.conf.hit.offset.x,
+          y1: invader.y - game.conf.hit.offset.y,
+          x2: invader.x + game.conf.hit.offset.x + game.conf.hit.width,
+        };
+
+        const hit_in_invader_x = invader_hit.x1 < shot_hit_x && shot_hit_x < invader_hit.x2;
+        const hit_in_invader_y = invader_hit.y1 >= shot_hit_y;
+        const is_hit = hit_in_invader_x && hit_in_invader_y;
+
+        if (is_hit) {
+          shot.state = CANNON_SHOT_DISABLED;
+          shot.on_state = state.frame_count;
+
+          invader.state = INVADER_DYING;
+          invader.started_at = state.frame_count;
+          state.number_of_invaders--;
+          return;
+        }
+      }
+    }
+  }
+};
+
 const proc = (game, state) => {
   move_cannon(game, state);
   move_cannon_shot(game, state);
 
+  if (state.frame_count % game.conf.invader_move_per_frames == 0) {
+    move_invader(game, state);
+    proceed_invader_index(game, state);
+  }
+
+  detect_hit_by_cannon_shot(game, state);
+  proc_dying_invaders(game, state);
+
+  if (state.frame_count == 60 * 15) {
+    console.log(game.conf);
+  }
   // dying test
   //if (state.frame_count == 100) {
   //  state.invaders[2][5].state = INVADER_DYING;
   //  state.invaders[2][5].started_at = state.frame_count;
   //}
-
-  proc_dying_invaders(game, state);
-  if (state.frame_count % game.conf.invader_move_per_frames == 0) {
-    move_invader(game, state);
-    proceed_invader_index(game, state);
-  }
 
   state.frame_count++;
 };
@@ -214,9 +289,8 @@ const draw_cannon = (game, state) => {
 
   if (game.debug) {
     const { x, y } = game.conf.hit.offset;
-    const { w, h } = game.conf.hit.size;
     game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-    game.ctx.fillRect(state.cannon_x - x, game.conf.initial_cannon_y - y, w, h);
+    game.ctx.fillRect(state.cannon_x - x, game.conf.initial_cannon_y - y, game.conf.hit.width, 5);
   }
 };
 
@@ -229,12 +303,6 @@ const draw_cannon_shot = (game, state) => {
   switch (state.cannon_shot.state) {
     case CANNON_SHOT_MOVING:
       game.ctx.fillText('｜', cx, cy);
-
-      if (game.debug) {
-        const { offset_x, offset_y, w, h } = game.conf.shot;
-        game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-        game.ctx.fillRect(cx + offset_x , cy - offset_y, w, h);
-      }
       break;
     case CANNON_SHOT_DYING:
       game.ctx.fillText('⺣', cx, cy);
@@ -261,8 +329,7 @@ const draw_invaders = (game, state) => {
         game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
         if (game.debug) {
           const { x, y } = game.conf.hit.offset;
-          const { w, h } = game.conf.hit.size;
-          game.ctx.fillRect(invader.x + x, invader.y - y, w, h);
+          game.ctx.fillRect(invader.x + x, invader.y, game.conf.hit.width, 5);
         }
 
       } else if (invader.state == INVADER_DYING) {
@@ -299,7 +366,9 @@ const draw_debug = (game, state) => {
 
   game.ctx.font = '12px Noto Sans JP';
   game.ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-  game.ctx.fillText(`key: left=${game.input.left} right=${game.input.right} space=${game.input.shot}`, 0, 10);
+  game.ctx.fillText(`key: left=${game.input.left} right=${game.input.right} shot=${game.input.shot}`, 0, 10);
+
+  game.ctx.fillText(`num=${state.number_of_invaders}`, 570, 10);
 };
 
 const draw = (game, state) => {

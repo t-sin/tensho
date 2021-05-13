@@ -16,16 +16,13 @@ const conf = {
   cannon_speed_x: 5,
   invader_move_speed_x: 5,
   invader_move_speed_y: 20,
-  invader_move_per_frames: 2,
+  invader_move_per_frames: 1,
   hit: {
     offset: { x: 3, y: 20 },
-    size: { w: 20, h: 20 },
+    width: 20,
   },
   shot: {
-    offset_x: 10,
-    offset_y: 20,
-    w: 3,
-    h: 20,
+    offset: { x: 10, y: 20 },
   },
 };
 
