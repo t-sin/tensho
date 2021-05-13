@@ -25,6 +25,15 @@ export const config = {
   cannon: {
     initial: { x: 320, y: 430 },
     speed: { x: 5 },
+    hit: {
+      offset: { x: 3, y: 20 },
+      width: 20,
+    },
+    shot: {
+      hit: {
+        offset: { x: 10, y: 20 },
+      },
+    },
   },
   invaders: {
     initial: {
@@ -33,18 +42,9 @@ export const config = {
     },
     speed: { x: 5, y: 20 },
     move_per_frames: 1,
-  },
-  hit: {
-    cannon: {
+    hit: {
       offset: { x: 3, y: 20 },
       width: 20,
-    },
-    invader: {
-      offset: { x: 3, y: 20 },
-      width: 20,
-    },
-    shot: {
-      offset: { x: 10, y: 20 },
     },
   },
 };
