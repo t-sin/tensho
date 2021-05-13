@@ -11,7 +11,6 @@ export const make_game_scene = (game) => {
     draw.proc(game, game_state);
     cannon.proc(game, game_state);
     invader.proc(game, game_state);
-    //proc(game, game_state);
     game_state.frames++;
 
     window.requestAnimationFrame(frame_fn);
