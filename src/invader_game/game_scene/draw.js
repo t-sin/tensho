@@ -4,7 +4,7 @@ const draw_ground = (game, state) => {
   game.ctx.strokeStyle = '#444';
   game.ctx.lineWidth = 1;
   game.ctx.beginPath();
-  const y = game.conf.edge_bottom + 0.5;
+  const y = constant.config.edge.bottom + 0.5;
   game.ctx.moveTo(60, y);
   game.ctx.lineTo(580, y);
   game.ctx.stroke();
@@ -55,7 +55,6 @@ const draw_invaders = (game, state) => {
     for (let invader of row) {
       game.ctx.fillStyle = '#000';
       if (invader.state.kind == constant.INVADER_ALIVE) {
-        console.log(invader);
         const ch = invader.char[invader.current_char];
         game.ctx.fillText(ch, invader.x, invader.y);
         game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
