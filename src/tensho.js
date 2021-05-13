@@ -5,9 +5,9 @@ const setup = () => {
   const ctx = canvas.getContext('2d');
 
   let input = {
-    space: false,
     left: false,
     right: false,
+    shot: false,
   };
   document.addEventListener('keydown', (e) => {
     switch (e.code) {
@@ -17,8 +17,8 @@ const setup = () => {
       case 'KeyL':
         input.right = true;
         break;
-      case 'Space':
-        input.space = true;
+      case 'KeyJ':
+        input.shot = true;
         break;
     }
   });
@@ -30,8 +30,8 @@ const setup = () => {
       case 'KeyL':
         input.right = false;
         break;
-      case 'Space':
-        input.space = false;
+      case 'KeyJ':
+        input.shot = false;
         break;
     }
   });
@@ -47,6 +47,10 @@ const setup = () => {
       initial_topleft_y: 100,
       initial_space_x: 35,
       initial_space_y: 30,
+      initial_cannon_x: 320,
+      initial_cannon_y: 430,
+      edge_top: 50,
+      edge_bottom: 440,
       edge_left: 70,
       edge_right: 570,
       rows: 5,

@@ -1,10 +1,15 @@
+const CANNON_SHOT_DISABLE = 'disable';
+const CANNON_SHOT_MOVING = 'moving';
+const CANNON_SHOT_BURSTING = 'bursting';
+
 const setup_state = (game) => {
   let state = {
     frame_count: 1,
   };
 
   // initialize cannon
-  state.cannon_x = 320;
+  state.cannon_x = game.conf.initial_cannon_x;
+  state.cannon_shot = { x: 0, y: 0, state: CANNON_SHOT_DISABLE, on_state: 0 };
 
   // initialize invaders
   state.invader_index = { x: 0, y: 0 };
@@ -119,8 +124,34 @@ const move_cannon = (game, state) => {
   }
 };
 
+const move_cannon_shot = (game, state) => {
+  let shot = state.cannon_shot;
+  if (game.input.shot && shot.state == CANNON_SHOT_DISABLE) {
+    shot.x = state.cannon_x;
+    shot.y = game.conf.initial_cannon_y - 35;
+    shot.state = CANNON_SHOT_MOVING;
+  }
+
+  switch (shot.state) {
+    case CANNON_SHOT_MOVING:
+    shot.y -= 10;
+    if (shot.y < game.conf.edge_top - 35) {
+      shot.state = CANNON_SHOT_BURSTING;
+      shot.on_state = state.frame_count;
+    }
+    break;
+
+    case CANNON_SHOT_BURSTING:
+      if (state.frame_count > shot.on_state + 10) {
+        shot.state = CANNON_SHOT_DISABLE;
+      }
+    break;
+  }
+};
+
 const proc = (game, state) => {
   move_cannon(game, state);
+  move_cannon_shot(game, state);
 
   if (state.frame_count % game.conf.invader_move_per_frames == 0) {
     move_invader(game, state);
@@ -134,15 +165,32 @@ const draw_ground = (game, state) => {
   game.ctx.strokeStyle = '#444';
   game.ctx.lineWidth = 1;
   game.ctx.beginPath();
-  game.ctx.moveTo(60, 440.5);
-  game.ctx.lineTo(580, 440.5);
+  const y = game.conf.edge_bottom + 0.5;
+  game.ctx.moveTo(60, y);
+  game.ctx.lineTo(580, y);
   game.ctx.stroke();
 };
 
 const draw_cannon = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  game.ctx.fillText('凸', state.cannon_x - 5, 430);
+  game.ctx.fillText('凸', state.cannon_x - 5, game.conf.initial_cannon_y);
+};
+
+const draw_cannon_shot = (game, state) => {
+  game.ctx.font = '25px Noto Sans JP';
+  game.ctx.fillStyle = '#000';
+  const x = state.cannon_shot.x - 5;
+  const y = state.cannon_shot.y + 25;
+
+  switch (state.cannon_shot.state) {
+    case CANNON_SHOT_MOVING:
+      game.ctx.fillText('｜', x, y);
+      break;
+    case CANNON_SHOT_BURSTING:
+      game.ctx.fillText('⺣', x, y);
+      break;
+  }
 };
 
 const draw_torchka = (game, state) => {
@@ -186,13 +234,14 @@ const draw_debug = (game, state) => {
 
   game.ctx.font = '12px Noto Sans JP';
   game.ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-  game.ctx.fillText(`key: left=${game.input.left} right=${game.input.right} space=${game.input.space}`, 0, 10);
+  game.ctx.fillText(`key: left=${game.input.left} right=${game.input.right} space=${game.input.shot}`, 0, 10);
 };
 
 const draw = (game, state) => {
   game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
   draw_ground(game, state);
   draw_cannon(game, state);
+  draw_cannon_shot(game, state);
   draw_torchka(game, state);
   draw_invaders(game, state);
   draw_ufo(game, state);
