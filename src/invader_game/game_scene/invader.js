@@ -50,6 +50,10 @@ const should_move = (i, j, state) => {
   return state.invaders.current == nth && now_is_the_time;
 };
 
+const check_one_invader = (state, i, j, invader) => {
+  check_living(i, j, invader);
+};
+
 const proc_one_invader = (state, i, j, invader) => {
   if (should_move(i, j, state)) {
     invader.current_char = (invader.current_char + 1) % invader.char.length;
@@ -74,11 +78,11 @@ const proc_one_invader = (state, i, j, invader) => {
 
   // animate dying invader
   // hit detection
-
-  check_living(i, j, invader);
 };
 
 export const proc = (game, state) => {
+  reset_living_checker();
+  iterate_all_invaders(check_one_invader, state);
   iterate_all_invaders(proc_one_invader, state);
 
   state.invaders.current = (state.invaders.current + 1) % state.invaders.array.length;
