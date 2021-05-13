@@ -42,7 +42,6 @@ const setup = () => {
     scene: null,
     debug: true,
     input: input,
-    conf: null,
   };
   game.scene = game_scene.make_game_scene(game);
   return game;
