@@ -5,6 +5,14 @@ export const INVADER_DISABLED = 'disabled';
 export const INVADER_ALIVE = 'alive';
 export const INVADER_DYING = 'dying';
 
+export const invader_anim_pattern = [
+  "閧闘",
+  "莔莤",
+  "莔莤",
+  "莔莤",
+  "余会",
+];
+
 export const config = {
   rows: 5,
   columns: 11,
@@ -18,7 +26,7 @@ export const config = {
     initial: { x: 320, y: 430 },
     speed: { x: 5 },
   },
-  invader: {
+  invaders: {
     initial: {
       topleft: { x: 120, y: 100 },
       offset: { x: 35, y: 30 },
