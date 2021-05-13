@@ -124,7 +124,7 @@ const draw_ground = (game, state) => {
   game.ctx.stroke();
 };
 
-const draw_canon = (game, state) => {
+const draw_cannon = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
   game.ctx.fillText('凸', 320, 430);
@@ -177,7 +177,7 @@ const draw_debug = (game, state) => {
 const draw = (game, state) => {
   game.ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
   draw_ground(game, state);
-  draw_canon(game, state);
+  draw_cannon(game, state);
   draw_torchka(game, state);
   draw_invaders(game, state);
   draw_ufo(game, state);
