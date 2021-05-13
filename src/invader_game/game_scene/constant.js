@@ -37,7 +37,7 @@ export const config = {
   },
   invaders: {
     initial: {
-      topleft: { x: 120, y: 100 },
+      topleft: { x: 130, y: 100 },
       offset: { x: 35, y: 30 },
     },
     speed: { x: 5, y: 20 },
