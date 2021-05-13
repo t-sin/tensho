@@ -168,6 +168,10 @@ const draw_debug = (game, state) => {
   game.ctx.moveTo(game.conf.edge_left + 0.5, 0);
   game.ctx.lineTo(game.conf.edge_left + 0.5, 500);
   game.ctx.stroke();
+
+  game.ctx.font = '12px Noto Sans JP';
+  game.ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+  game.ctx.fillText(`key: left=${game.input.left} right=${game.input.right} space=${game.input.space}`, 0, 10);
 };
 
 const draw = (game, state) => {

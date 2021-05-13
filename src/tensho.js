@@ -4,11 +4,44 @@ const setup = () => {
   const canvas = document.getElementById('tensho-game');
   const ctx = canvas.getContext('2d');
 
+  let input = {
+    space: false,
+    left: false,
+    right: false,
+  };
+  document.addEventListener('keydown', (e) => {
+    switch (e.code) {
+      case 'KeyH':
+        input.left = true;
+        break;
+      case 'KeyL':
+        input.right = true;
+        break;
+      case 'Space':
+        input.space = true;
+        break;
+    }
+  });
+  document.addEventListener('keyup', (e) => {
+    switch (e.code) {
+      case 'KeyH':
+        input.left = false;
+        break;
+      case 'KeyL':
+        input.right = false;
+        break;
+      case 'Space':
+        input.space = false;
+        break;
+    }
+  });
+
   let game = {
     canvas: canvas,
     ctx: ctx,
     scene: null,
     debug: true,
+    input: input,
     conf: {
       initial_topleft_x: 120,
       initial_topleft_y: 100,
