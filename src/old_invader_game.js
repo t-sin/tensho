@@ -1,51 +1,5 @@
-const CANNON_SHOT_DISABLED = 'disable';
-const CANNON_SHOT_MOVING = 'moving';
-const CANNON_SHOT_DYING = 'dying';
-const INVADER_DISABLED = 'disabled';
-const INVADER_ALIVE = 'alive';
-const INVADER_DYING = 'dying';
 
-const invader_anim_pattern = [
-  "閧闘",
-  "莔莤",
-  "莔莤",
-  "莔莤",
-  "余会",
-];
 
-const setup_state = (game) => {
-  let state = {
-    frame_count: 1,
-  };
-
-  // initialize cannon
-  state.cannon_x = game.conf.initial_cannon_x;
-  state.cannon_shot = { x: 0, y: 0, state: CANNON_SHOT_DISABLED, on_state: 0 };
-
-  // initialize invaders
-  state.invader_index = { x: 0, y: 0 };
-  state.invaders = []
-  state.move_to_right = true;
-  state.number_of_invaders = 0;
-
-  for (let y = 0; y < game.conf.rows; y++) {
-    let row = [];
-    for (let x = 0; x < game.conf.columns; x++) {
-      const invader = {
-        x: game.conf.initial_topleft_x + game.conf.initial_space_x * x,
-        y: game.conf.initial_topleft_y + game.conf.initial_space_y * (5 - y),
-        char: invader_anim_pattern[y],
-        current_char: 0,
-        state: INVADER_ALIVE,
-        started_at: 0,
-      };
-      row.push(invader);
-      state.number_of_invaders++;
-    }
-    state.invaders.push(row);
-  }
-  return state;
-};
 
 const current_invader = (state) => {
   const { x, y } = state.invader_index;
