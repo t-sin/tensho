@@ -1,13 +1,13 @@
 const constant = require('./constant.js');
 
-export const setup_state = (game) => {
+export const setup_state = () => {
   let state = {
     frames: 1,
   };
 
   state.cannon = {
-    x: game.conf.cannon.initial.x,
-    y: game.conf.cannon.initial.y,
+    x: constant.config.cannon.initial.x,
+    y: constant.config.cannon.initial.y,
     shot: {
       x: 0, y: 0,
       state: {
@@ -24,15 +24,15 @@ export const setup_state = (game) => {
     direction_right: true,
   };
 
-  const ix = game.conf.invaders.initial.topleft.x;
-  const iy = game.conf.invaders.initial.topleft.y;
+  const ix = constant.config.invaders.initial.topleft.x;
+  const iy = constant.config.invaders.initial.topleft.y;
 
-  for (let j = 0; j < game.conf.rows; j++) {
+  for (let j = 0; j < constant.config.rows; j++) {
     let row = [];
-    for (let i = 0; i < game.conf.columns; i++) {
+    for (let i = 0; i < constant.config.columns; i++) {
       const invader = {
-        x: ix + game.conf.invaders.initial.offset.x * i,
-        y: iy + game.conf.invaders.initial.offset.y * (5 - j),
+        x: ix + constant.config.invaders.initial.offset.x * i,
+        y: iy + constant.config.invaders.initial.offset.y * (5 - j),
         char: constant.invader_anim_pattern[j],
         current_char: 0,
         state: {
@@ -48,4 +48,9 @@ export const setup_state = (game) => {
 
   console.table(state);
   return state;
+};
+
+export const current_invader = (state) => {
+  const { i, j } = state.invaders.current;
+  return state.invaders.array[j][i];
 };
