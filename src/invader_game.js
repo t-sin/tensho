@@ -107,7 +107,7 @@ const proceed_invader_index = (game, state) => {
 };
 
 const proc = (game, state) => {
-  if (state.frame_count % 1 == 0) {
+  if (state.frame_count % game.conf.move_per_frames == 0) {
     move_invader(game, state);
     proceed_invader_index(game, state);
   }

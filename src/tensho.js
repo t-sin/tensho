@@ -20,6 +20,7 @@ const setup = () => {
       columns: 11,
       move_speed_x: 5,
       move_speed_y: 20,
+      move_per_frames: 2,
     },
   };
   game.scene = invader.make_invader_scene(game);
