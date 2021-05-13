@@ -211,6 +211,13 @@ const draw_cannon = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
   game.ctx.fillText('凸', state.cannon_x - 5, game.conf.initial_cannon_y);
+
+  if (game.debug) {
+    const { x, y } = game.conf.hit.offset;
+    const { w, h } = game.conf.hit.size;
+    game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+    game.ctx.fillRect(state.cannon_x - x, game.conf.initial_cannon_y - y, w, h);
+  }
 };
 
 const draw_cannon_shot = (game, state) => {
@@ -239,12 +246,18 @@ const draw_torchka = (game, state) => {
 
 const draw_invaders = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
-  game.ctx.fillStyle = '#000';
 
   for (let row of state.invaders) {
     for (let invader of row) {
+      game.ctx.fillStyle = '#000';
       if (invader.state == INVADER_ALIVE) {
         game.ctx.fillText(invader.char[invader.current_char], invader.x, invader.y);
+        game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+        if (game.debug) {
+          const { x, y } = game.conf.hit.offset;
+          const { w, h } = game.conf.hit.size;
+          game.ctx.fillRect(invader.x + x, invader.y - y, w, h);
+        }
 
       } else if (invader.state == INVADER_DYING) {
         let ch;
