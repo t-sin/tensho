@@ -7,12 +7,12 @@ const invader = require('./invader.js');
 export const make_game_scene = (game) => {
   let game_state = state.setup_state();
 
-  const fn = () => {
+  const frame_fn = () => {
     draw.proc(game, game_state);
     invader.proc(game, game_state);
     //proc(game, game_state);
 
-    //window.requestAnimationFrame(fn);
+    //window.requestAnimationFrame(frame_fn);
   };
-  return fn;
+  return frame_fn;
 };
