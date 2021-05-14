@@ -4,10 +4,10 @@ const nth_in_array = (i, j) => {
   return j * constant.config.columns + i;
 };
 
-const iterate_all_invaders = (fn, state) => {
+const iterate_all_invaders = (fn, state, ...rest) => {
   for (let j = 0; j < constant.config.rows; j++) {
     for (let i = 0; i < constant.config.columns; i++) {
-      fn(state, i, j, state.invaders.array[j * constant.config.columns + i]);
+      fn(state, i, j, state.invaders.array[nth_in_array(i, j)], ...rest);
     }
   }
 };
