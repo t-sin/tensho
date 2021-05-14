@@ -41,7 +41,7 @@ export const config = {
       offset: { x: 35, y: 29 },
     },
     speed: { x: 5, y: 15 },
-    move_per_frames: 1,
+    move_per_frames: 2,
     hit: {
       offset: { x: 3, y: 20 },
       width: 20,
