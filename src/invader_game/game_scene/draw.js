@@ -63,9 +63,9 @@ const draw_invaders = (game, state) => {
         game.ctx.fillRect(invader.x + x, invader.y, constant.config.cannon.hit.width, 5);
       }
 
-    } else if (invader.state == constant.INVADER_DYING) {
+    } else if (invader.state.kind == constant.INVADER_DYING) {
       let ch;
-      if (state.frames < invader.started_at + 5) {
+      if (state.frames < invader.state.changed_at + 8) {
         ch = '＊';
       } else {
         ch = '⁂';
