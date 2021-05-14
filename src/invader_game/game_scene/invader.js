@@ -67,13 +67,6 @@ const check_one_invader = (state, i, j, invader) => {
   check_alive(i, j, invader);
 };
 
-const should_move = (i, j, state) => {
-  const nth = nth_in_array(i, j)
-  const now_is_the_time = state.frames % constant.config.invaders.move_per_frames == 0;
-
-  return state.invaders.current == nth && now_is_the_time;
-};
-
 const is_hit = (shot, invader) => {
   const shot_hit_x = shot.x + constant.config.cannon.shot.hit.offset.x;
   const shot_hit_y = shot.y;
@@ -92,31 +85,19 @@ const is_hit = (shot, invader) => {
 };
 
 const kill_invader = (state, shot, invader) => {
-  if (state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING) {
-    if (invader.state.kind == constant.INVADER_ALIVE) {
-      shot.state.kind = constant.CANNON_SHOT_DISABLED;
-      shot.state.changed_at = state.frames;
+  if (invader.state.kind == constant.INVADER_ALIVE) {
+    shot.state.kind = constant.CANNON_SHOT_DISABLED;
+    shot.state.changed_at = state.frames;
 
-      invader.state.kind = constant.INVADER_DYING;
-      invader.state.changed_at = state.frames;
-      state.invaders.number_of_alive--;
-    }
+    invader.state.kind = constant.INVADER_DYING;
+    invader.state.changed_at = state.frames;
+    state.invaders.number_of_alive--;
   }
 };
-
 
 const update_one_invader = (state, i, j, invader, turn) => {
   if (turn) {
     invader.y += constant.config.invaders.speed.y;
-  }
-
-  if (should_move(i, j, state)) {
-    invader.current_char = (invader.current_char + 1) % invader.char.length;
-    if (state.invaders.direction_right) {
-      invader.x += constant.config.invaders.speed.x;
-    } else {
-      invader.x -= constant.config.invaders.speed.x;
-    }
   }
 
   if (invader.state.kind == constant.INVADER_DYING) {
@@ -125,9 +106,19 @@ const update_one_invader = (state, i, j, invader, turn) => {
     }
   }
 
-  if (is_hit(state.cannon.shot, invader)) {
+  const cannon_shot_moving = state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING;
+  if (cannon_shot_moving && is_hit(state.cannon.shot, invader)) {
     kill_invader(state, state.cannon.shot, invader);
     return;
+  }
+};
+
+const move = (state, invader) => {
+  invader.current_char = (invader.current_char + 1) % invader.char.length;
+  if (state.invaders.direction_right) {
+    invader.x += constant.config.invaders.speed.x;
+  } else {
+    invader.x -= constant.config.invaders.speed.x;
   }
 };
 
@@ -147,6 +138,24 @@ const on_edge = (state) => {
   return (to_right && on_right_edge) || (!to_right && on_left_edge);
 };
 
+const next_invader_idx = (state) => {
+  const next = state.invaders.current + 1;
+  state.invaders.current++;
+  state.invaders.current %= state.invaders.array.length;
+
+
+  let invader = state.invaders.array[state.invaders.current];
+  while (invader.state.kind != constant.INVADER_ALIVE) {
+    if (state.invaders.number_of_alive <= 0) {
+      break;
+    }
+
+    state.invaders.current++;
+    state.invaders.current %= state.invaders.array.length;
+    invader = state.invaders.array[state.invaders.current];
+  }
+};
+
 export const proc = (game, state) => {
   reset_alive_checker();
   iterate_all_invaders(check_one_invader, state);
@@ -160,7 +169,10 @@ export const proc = (game, state) => {
     iterate_all_invaders(update_one_invader, state, false);
   }
 
-  state.invaders.current = (state.invaders.current + 1) % state.invaders.array.length;
+  const current = state.invaders.current;
+  move(state, state.invaders.array[current]);
+
+  next_invader_idx(state);
 
   if (state.invaders.number_of_alive == 0) {
     return true;
