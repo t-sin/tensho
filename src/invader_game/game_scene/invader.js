@@ -1,13 +1,13 @@
 const constant = require('./constant.js');
 
-const nth_in_array = (i, j) => {
+const index = (i, j) => {
   return j * constant.config.columns + i;
 };
 
 const iterate_all_invaders = (fn, state, ...rest) => {
   for (let j = 0; j < constant.config.rows; j++) {
     for (let i = 0; i < constant.config.columns; i++) {
-      fn(state, i, j, state.invaders.array[nth_in_array(i, j)], ...rest);
+      fn(state, i, j, state.invaders.array[index(i, j)], ...rest);
     }
   }
 };
@@ -28,7 +28,7 @@ const make_alive_checker = () => {
 
   const check_alive = (i, j, invader) => {
     if (invader.state.kind == constant.INVADER_ALIVE) {
-      const idx = nth_in_array(i, j);
+      const idx = index(i, j);
       last_alive_idx = idx
 
       if (first_alive_idx == -1) {
@@ -128,8 +128,8 @@ const on_edge = (state) => {
 
   const invaders = state.invaders.array;
   let most_left, most_right;
-  if (left == null) most_left = null; else most_left = invaders[nth_in_array(left.i, left.j)];
-  if (right == null) most_right = null; else most_right = invaders[nth_in_array(right.i, right.j)];
+  if (left == null) most_left = null; else most_left = invaders[index(left.i, left.j)];
+  if (right == null) most_right = null; else most_right = invaders[index(right.i, right.j)];
 
   const on_left_edge = most_left != null && most_left.x < edge_left;
   const on_right_edge = most_right != null && most_right.x > edge_right - 25;
