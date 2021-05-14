@@ -10,10 +10,17 @@ export const make_game_scene = (game) => {
   const frame_fn = () => {
     draw.proc(game, game_state);
     cannon.proc(game, game_state);
-    invader.proc(game, game_state);
+    const destroyed = invader.proc(game, game_state);
     game_state.frames++;
 
-    window.requestAnimationFrame(frame_fn);
+    if (destroyed) {
+      console.log('destroyed');
+      return true;
+
+    } else {
+      window.requestAnimationFrame(frame_fn);
+      return false;
+    }
   };
   return frame_fn;
 };

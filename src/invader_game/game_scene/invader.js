@@ -161,4 +161,10 @@ export const proc = (game, state) => {
   }
 
   state.invaders.current = (state.invaders.current + 1) % state.invaders.array.length;
+
+  if (state.invaders.number_of_alive == 0) {
+    return true;
+  }
+
+  return false
 };
