@@ -74,8 +74,7 @@ const should_move = (i, j, state) => {
   return state.invaders.current == nth && now_is_the_time;
 };
 
-const is_hit = (state, invader) => {
-  const shot = state.cannon.shot;
+const is_hit = (shot, invader) => {
   const shot_hit_x = shot.x + constant.config.cannon.shot.hit.offset.x;
   const shot_hit_y = shot.y;
   const invader_hit = {
@@ -91,6 +90,20 @@ const is_hit = (state, invader) => {
 
   return hit;
 };
+
+const update_shooted_invader = (state, shot, invader) => {
+  if (state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING) {
+    if (invader.state.kind == constant.INVADER_ALIVE) {
+      shot.state.kind = constant.CANNON_SHOT_DISABLED;
+      shot.state.changed_at = state.frames;
+
+      invader.state.kind = constant.INVADER_DYING;
+      invader.state.changed_at = state.frames;
+      state.invaders.number_of_alive--;
+    }
+  }
+};
+
 
 const update_one_invader = (state, i, j, invader, turn) => {
   if (turn) {
@@ -112,21 +125,9 @@ const update_one_invader = (state, i, j, invader, turn) => {
     }
   }
 
-  if (state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING) {
-    if (invader.state.kind == constant.INVADER_ALIVE) {
-
-      if (is_hit(state, invader)) {
-        const shot = state.cannon.shot;
-        shot.state.kind = constant.CANNON_SHOT_DISABLED;
-        shot.state.changed_at = state.frames;
-
-        invader.state.kind = constant.INVADER_DYING;
-        invader.state.changed_at = state.frames;
-        state.invaders.number_of_alive;
-
-        return;
-      }
-    }
+  if (is_hit(state.cannon.shot, invader)) {
+    update_shooted_invader(state, state.cannon.shot, invader);
+    return;
   }
 };
 
