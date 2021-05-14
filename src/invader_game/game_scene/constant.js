@@ -38,9 +38,9 @@ export const config = {
   invaders: {
     initial: {
       topleft: { x: 130, y: 100 },
-      offset: { x: 35, y: 30 },
+      offset: { x: 35, y: 29 },
     },
-    speed: { x: 5, y: 20 },
+    speed: { x: 5, y: 15 },
     move_per_frames: 1,
     hit: {
       offset: { x: 3, y: 20 },

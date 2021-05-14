@@ -101,7 +101,7 @@ const on_edge = (state) => {
   if (left == null) most_left = null; else most_left = invaders[nth_in_array(left.i, left.j)];
   if (right == null) most_right = null; else most_right = invaders[nth_in_array(right.i, right.j)];
 
-  const on_left_edge = most_left != null && most_left.x < edge_left + 10;
+  const on_left_edge = most_left != null && most_left.x < edge_left;
   const on_right_edge = most_right != null && most_right.x > edge_right - 25;
 
   const to_right = state.invaders.direction_right;
