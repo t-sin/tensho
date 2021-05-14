@@ -46,8 +46,8 @@ const make_alive_checker = () => {
   };
 
   const get_alive_idx = () => {
-    left_alives.sort((a, b) => (a == null || b.j < a.j || b.i < a.i) ? 1 : -1);
-    right_alives.sort((a, b) => (a == null || b.i > a.i) ? 1 : -1);
+    left_alives.sort((a, b) => (a == null || b == null || b.j < a.j || b.i < a.i) ? 1 : -1);
+    right_alives.sort((a, b) => (a == null || b == null || b.i > a.i) ? 1 : -1);
     left_alive_idx = left_alives[0];
     right_alive_idx = right_alives[0];
 
