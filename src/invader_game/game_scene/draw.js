@@ -51,30 +51,26 @@ const draw_torchka = (game, state) => {
 const draw_invaders = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
 
-  for (let j = 0; j < constant.config.rows; j++) {
-    for (let i = 0; i < constant.config.columns; i++) {
-      let invader = state.invaders.array[j * constant.config.columns + i];
+  for (let invader of state.invaders.array) {
+    game.ctx.fillStyle = '#000';
+    if (invader.state.kind == constant.INVADER_ALIVE) {
+      const ch = invader.char[invader.current_char];
+      game.ctx.fillText(ch, invader.x, invader.y);
+      game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
 
-      game.ctx.fillStyle = '#000';
-      if (invader.state.kind == constant.INVADER_ALIVE) {
-        const ch = invader.char[invader.current_char];
-        game.ctx.fillText(ch, invader.x, invader.y);
-        game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-
-        if (game.debug) {
-          const { x, y } = constant.config.cannon.hit.offset;
-          game.ctx.fillRect(invader.x + x, invader.y, constant.config.cannon.hit.width, 5);
-        }
-
-      } else if (invader.state == constant.INVADER_DYING) {
-        let ch;
-        if (state.frames < invader.started_at + 5) {
-          ch = '＊';
-        } else {
-          ch = '⁂';
-        }
-        game.ctx.fillText(ch, invader.x, invader.y);
+      if (game.debug) {
+        const { x, y } = constant.config.cannon.hit.offset;
+        game.ctx.fillRect(invader.x + x, invader.y, constant.config.cannon.hit.width, 5);
       }
+
+    } else if (invader.state == constant.INVADER_DYING) {
+      let ch;
+      if (state.frames < invader.started_at + 5) {
+        ch = '＊';
+      } else {
+        ch = '⁂';
+      }
+      game.ctx.fillText(ch, invader.x, invader.y);
     }
   }
 };
