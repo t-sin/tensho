@@ -1,15 +1,15 @@
 const constant = require('./constant.js');
 
+const nth_in_array = (i, j) => {
+  return j * constant.config.columns + i;
+};
+
 const iterate_all_invaders = (fn, state) => {
   for (let j = 0; j < constant.config.rows; j++) {
     for (let i = 0; i < constant.config.columns; i++) {
       fn(state, i, j, state.invaders.array[j * constant.config.columns + i]);
     }
   }
-};
-
-const nth_in_array = (i, j) => {
-  return j * constant.config.columns + i;
 };
 
 const make_living_checker = () => {
