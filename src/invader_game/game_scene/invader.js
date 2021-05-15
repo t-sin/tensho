@@ -48,6 +48,10 @@ const make_alive_checker = () => {
   const get_alive_idx = (state) => {
     left_alives.sort((a, b) => (a == null || b == null || b.j < a.j || b.i < a.i) ? 1 : -1);
     right_alives.sort((a, b) => (a == null || b == null || b.i > a.i) ? 1 : -1);
+
+    state.debug.invaders.alive.lefts = left_alives;
+    state.debug.invaders.alive.rights = right_alives;
+
     left_alive_idx = left_alives[0];
     right_alive_idx = right_alives[0];
 
@@ -130,6 +134,8 @@ const on_edge = (state) => {
   let most_left, most_right;
   if (left == null) most_left = null; else most_left = invaders[index(left.i, left.j)];
   if (right == null) most_right = null; else most_right = invaders[index(right.i, right.j)];
+  state.debug.invaders.alive.most_left = left;
+  state.debug.invaders.alive.most_right = right;
 
   const on_left_edge = most_left != null && most_left.x < edge_left;
   const on_right_edge = most_right != null && most_right.x > edge_right - 25;
