@@ -45,7 +45,7 @@ const make_alive_checker = () => {
     }
   };
 
-  const get_alive_idx = () => {
+  const get_alive_idx = (state) => {
     left_alives.sort((a, b) => (a == null || b == null || b.j < a.j || b.i < a.i) ? 1 : -1);
     right_alives.sort((a, b) => (a == null || b == null || b.i > a.i) ? 1 : -1);
     left_alive_idx = left_alives[0];
@@ -123,7 +123,7 @@ const move = (state, invader) => {
 };
 
 const on_edge = (state) => {
-  let { left, right } = get_alive_idx();
+  let { left, right } = get_alive_idx(state);
   const { left: edge_left, right: edge_right } = constant.config.edge;
 
   const invaders = state.invaders.array;
@@ -160,7 +160,7 @@ export const proc = (game, state) => {
   reset_alive_checker();
   iterate_all_invaders(check_one_invader, state);
 
-  const { first: first_invader_idx } = get_alive_idx();
+  const { first: first_invader_idx } = get_alive_idx(state);
   const on_first_invader_moving = state.invaders.current == first_invader_idx;
   if (on_edge(state) && on_first_invader_moving) {
     state.invaders.direction_right = !state.invaders.direction_right;
