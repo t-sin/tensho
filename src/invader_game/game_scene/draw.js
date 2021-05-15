@@ -75,6 +75,18 @@ const draw_invaders = (game, state) => {
   }
 };
 
+const draw_invader_shots = (game, state) => {
+  game.ctx.font = '25px Noto Sans JP';
+  game.ctx.fillStyle = '#000';
+
+  for (let shot of state.invaders.shot) {
+    if (shot.state.kind == constant.INVADER_SHOT_MOVING) {
+      const ch = shot.char[shot.current_char];
+      game.ctx.fillText(ch, shot.x + 10, shot.y);
+    }
+  }
+};
+
 const draw_ufo = (game, state) => {
   game.ctx.font = '18px Noto Sans JP';
   game.ctx.fillStyle = '#000';
@@ -104,6 +116,7 @@ shot=${game.input.shot}`, 0, 10);
 
   const left = state.debug.invaders.alive.most_left;
   const right = state.debug.invaders.alive.most_right;
+  const bottom = state.debug.invaders.alive.most_bottom;
   if (left == null) {
     game.ctx.fillText(`most_left=null`, 0, 22);
   } else {
@@ -114,14 +127,24 @@ shot=${game.input.shot}`, 0, 10);
   } else {
     game.ctx.fillText(`most_right=(${right.i}, ${right.j})`, 0, 34);
   }
+  if (bottom == null) {
+    game.ctx.fillText(`most_bottom=null`, 0, 46);
+  } else {
+    game.ctx.fillText(`most_bottom=(${bottom.i}, ${bottom.j})`, 0, 46);
+  }
+
   let s = state.debug.invaders.alive.lefts.reduce((acc, e) => (
     acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
   ), 'lefts=[') + ']';
-  game.ctx.fillText(s, 0, 46);
+  game.ctx.fillText(s, 0, 58);
   s = state.debug.invaders.alive.rights.reduce((acc, e) => (
     acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
   ), 'rights=[') + ']';
-  game.ctx.fillText(s, 0, 58);
+  game.ctx.fillText(s, 0, 70);
+  s = state.debug.invaders.alive.bottoms.reduce((acc, e) => (
+    acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
+  ), 'bottoms=[') + ']';
+  game.ctx.fillText(s, 0, 82);
 };
 
 export const proc = (game, state) => {
@@ -131,6 +154,7 @@ export const proc = (game, state) => {
   draw_cannon_shot(game, state);
   draw_torchka(game, state);
   draw_invaders(game, state);
+  draw_invader_shots(game, state);
   draw_ufo(game, state);
 
   if (game.debug) {

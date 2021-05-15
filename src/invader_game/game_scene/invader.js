@@ -124,10 +124,27 @@ const update_one_invader = (state, i, j, invader, turn) => {
     kill_invader(state, state.cannon.shot, invader);
     return;
   }
+
+  const { bottoms } = get_alive_idx(state);
+  for (let bottom of bottoms) {
+    if (bottom != null && i == bottom.i && j == bottom.j) {
+      let shot = state.invaders.shot[i];
+      if (shot.state.kind == constant.INVADER_SHOT_DISABLED && invader.to_shot <= 0) {
+        shot.state.kind = constant.INVADER_SHOT_MOVING;
+        shot.state.changed_at = state.frames;
+        shot.x = invader.x;
+        shot.y = invader.y + constant.config.invaders.size;
+        invader.to_shot = Math.floor(Math.random() * 300);
+      }
+    }
+  }
+
+  invader.to_shot--;
 };
 
 const move = (state, invader) => {
   invader.current_char = (invader.current_char + 1) % invader.char.length;
+
   if (state.invaders.direction_right) {
     invader.x += constant.config.invaders.speed.x;
   } else {

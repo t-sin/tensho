@@ -22,6 +22,7 @@ export const setup_state = () => {
     number_of_alive: 0,
     current: 0,
     direction_right: true,
+    shot: [],
   };
 
   const ix = constant.config.invaders.initial.topleft.x;
@@ -29,6 +30,7 @@ export const setup_state = () => {
 
   for (let j = 0; j < constant.config.rows; j++) {
     for (let i = 0; i < constant.config.columns; i++) {
+      const n = Math.floor(Math.random() * constant.invader_shot_anim_pattern.length);
       const invader = {
         x: ix + constant.config.invaders.initial.offset.x * i,
         y: iy + constant.config.invaders.initial.offset.y * (5 - j),
@@ -38,11 +40,24 @@ export const setup_state = () => {
           kind: constant.INVADER_ALIVE,
           changed_at: 0,
         },
+        to_shot: Math.floor(Math.random() * 300),
       };
       state.invaders.array.push(invader);
       state.invaders.number_of_alive++;
-    }
 
+      if (j == 0) {
+        const shot = {
+          x: 0, y: 0,
+          char: constant.invader_shot_anim_pattern[n],
+          current_char: 0,
+          state: {
+            kind: constant.INVADER_SHOT_DISABLED,
+            changed_at: 0,
+          },
+        };
+        state.invaders.shot.push(shot);
+      }
+    }
   }
 
   state.debug = {
@@ -52,6 +67,7 @@ export const setup_state = () => {
         most_right: { i: -1, j: -1 },
         lefts: [],
         rights: [],
+        bottoms: [],
       }
     }
   };

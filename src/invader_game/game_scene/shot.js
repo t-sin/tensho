@@ -25,6 +25,24 @@ const move_cannon_shot = (game, state) => {
   }
 };
 
+const move_invader_shot = (game, state) => {
+  for (let shot of state.invaders.shot) {
+    if (shot.state.kind == constant.INVADER_SHOT_MOVING) {
+      shot.y += 4;
+
+      if (state.frames % 5 == 0) {
+        shot.current_char++;
+        shot.current_char %= shot.char.length;
+      }
+
+      if (shot.y > constant.config.edge.bottom) {
+        shot.state.kind = constant.INVADER_SHOT_DISABLED;
+      }
+    }
+  }
+};
+
 export const proc = (game, state) => {
   move_cannon_shot(game, state);
+  move_invader_shot(game, state);
 };
