@@ -1,6 +1,11 @@
-export const CANNON_SHOT_DISABLED = 'disable';
+export const CANNON_SHOT_DISABLED = 'disabled';
 export const CANNON_SHOT_MOVING = 'moving';
 export const CANNON_SHOT_DYING = 'dying';
+
+export const INVADER_SHOT_DISABLED = 'disabled';
+export const INVADER_SHOT_MOVING = 'moving';
+export const INVADER_SHOT_DYING = 'dying';
+
 export const INVADER_DISABLED = 'disabled';
 export const INVADER_ALIVE = 'alive';
 export const INVADER_DYING = 'dying';
@@ -11,6 +16,11 @@ export const invader_anim_pattern = [
   "莔莤",
   "莔莤",
   "余会",
+];
+
+export const invader_shot_anim_pattern = [
+  '⦚⧘⸾',
+  '⭭⭽',
 ];
 
 export const config = {
@@ -46,5 +56,6 @@ export const config = {
       offset: { x: 3, y: 20 },
       width: 20,
     },
+    size: 25,
   },
 };
