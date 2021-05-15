@@ -14,14 +14,17 @@ const iterate_all_invaders = (fn, state, ...rest) => {
 
 const make_alive_checker = () => {
   const rows = constant.config.rows;
+  const columns = constant.config.columns;
   let left_alives = new Array(rows);
   let right_alives = new Array(rows);
+  let bottom_alives = new Array(columns);
   let left_alive_idx, right_alive_idx;
   let first_alive_idx, last_alive_idx;
 
   const reset_alive_checker = () => {
     left_alives.fill(null);
     right_alives.fill(null);
+    bottom_alives.fill(null);
     first_alive_idx = -1;
     last_alive_idx = -1;
   };
@@ -42,6 +45,10 @@ const make_alive_checker = () => {
       if (right_alives[j] == null || i > right_alives[j].i) {
         right_alives[j] = { i, j };
       };
+
+      if (bottom_alives[i] == null || j < bottom_alives[i].j) {
+        bottom_alives[i] = { i, j };
+      };
     }
   };
 
@@ -51,6 +58,7 @@ const make_alive_checker = () => {
 
     state.debug.invaders.alive.lefts = left_alives;
     state.debug.invaders.alive.rights = right_alives;
+    state.debug.invaders.alive.bottoms = bottom_alives;
 
     left_alive_idx = left_alives[0];
     right_alive_idx = right_alives[0];
@@ -60,6 +68,7 @@ const make_alive_checker = () => {
       right: right_alive_idx,
       first: first_alive_idx,
       last: last_alive_idx,
+      bottoms: bottom_alives,
     };
   };
 
