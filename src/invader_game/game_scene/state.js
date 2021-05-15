@@ -45,6 +45,17 @@ export const setup_state = () => {
 
   }
 
+  state.debug = {
+    invaders: {
+      alive: {
+        most_left: { i: -1, j: -1 },
+        most_right: { i: -1, j: -1 },
+        lefts: [],
+        rights: [],
+      }
+    }
+  };
+
   console.table(state);
   return state;
 };

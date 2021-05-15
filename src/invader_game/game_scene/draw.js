@@ -101,6 +101,27 @@ right=${game.input.right}
 shot=${game.input.shot}`, 0, 10);
 
   game.ctx.fillText(`num=${state.invaders.number_of_alive} frames=${state.frames}`, 500, 10);
+
+  const left = state.debug.invaders.alive.most_left;
+  const right = state.debug.invaders.alive.most_right;
+  if (left == null) {
+    game.ctx.fillText(`most_left=null`, 0, 22);
+  } else {
+    game.ctx.fillText(`most_left=(${left.i}, ${left.j})`, 0, 22);
+  }
+  if (right == null) {
+    game.ctx.fillText(`most_right=null`, 0, 34);
+  } else {
+    game.ctx.fillText(`most_right=(${right.i}, ${right.j})`, 0, 34);
+  }
+  let s = state.debug.invaders.alive.lefts.reduce((acc, e) => (
+    acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
+  ), 'lefts=[') + ']';
+  game.ctx.fillText(s, 0, 46);
+  s = state.debug.invaders.alive.rights.reduce((acc, e) => (
+    acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
+  ), 'rights=[') + ']';
+  game.ctx.fillText(s, 0, 58);
 };
 
 export const proc = (game, state) => {
