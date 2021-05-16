@@ -26,8 +26,8 @@ export const invader_anim_pattern = [
 ];
 
 export const invader_shot_anim_pattern = [
-  '⦚⧘⸾',
-  '⭭⭽',
+  '⦚⧘⸾', // NotoSans, 
+  '⭭⭽', // NotoSansSymbol2
 ];
 
 export const config = {
