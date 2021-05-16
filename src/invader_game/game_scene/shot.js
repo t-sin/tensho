@@ -46,6 +46,14 @@ const move_invader_shot = (game, state) => {
   }
 };
 
+const kill_cannon = (state, cannon, shot) => {
+      shot.state.kind = constant.INVADER_SHOT_DISABLED;
+      cannon.state.kind = constant.CANNON_DYING;
+      cannon.char = constant.cannon_dying_anim_pattern;
+      cannon.state.changed_at = state.frames;
+      cannon.life--;
+};
+
 const detect_hit_invader_shot = (game, state) => {
   let cannon = state.cannon;
   for (let shot of state.invaders.shot) {
@@ -67,10 +75,7 @@ const detect_hit_invader_shot = (game, state) => {
     const hit = in_cannon_x && in_cannon_y;
 
     if (hit) {
-      shot.state.kind = constant.INVADER_SHOT_DISABLED;
-      cannon.state.kind = constant.CANNON_DYING;
-      cannon.char = constant.cannon_dying_anim_pattern;
-      cannon.state.changed_at = state.frames;
+      kill_cannon(state, cannon, shot);
     }
   }
 };
