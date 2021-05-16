@@ -97,8 +97,9 @@ const is_hit = (shot, invader) => {
   return hit;
 };
 
-const kill_invader = (state, shot, invader) => {
+const kill_invader = (state, shot, i, j, invader) => {
   if (invader.state.kind == constant.INVADER_ALIVE) {
+    state.score += constant.score.invader[j];
     shot.state.kind = constant.CANNON_SHOT_DISABLED;
     shot.state.changed_at = state.frames;
 
@@ -121,7 +122,7 @@ const update_one_invader = (state, i, j, invader, turn) => {
 
   const cannon_shot_moving = state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING;
   if (cannon_shot_moving && is_hit(state.cannon.shot, invader)) {
-    kill_invader(state, state.cannon.shot, invader);
+    kill_invader(state, state.cannon.shot, i, j, invader);
     return;
   }
 

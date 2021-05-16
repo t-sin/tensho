@@ -35,7 +35,7 @@ export const cannon_dying_anim_pattern = '⺍丷';
 
 export const invader_anim_pattern = [
   "閧闘",
-  "莔莤",
+  "閧闘",
   "莔莤",
   "莔莤",
   "余会",
@@ -45,6 +45,19 @@ export const invader_shot_anim_pattern = [
   '⦚⧘⸾', // NotoSans, 
   '⭭⭽', // NotoSansSymbol2
 ];
+
+export const score = {
+  invader: [
+    10,
+    10,
+    20,
+    20,
+    30,
+  ],
+  ufo: [
+    100, 50, 100, 300, 50, 50, 100, 500, 100, 300, 150, 300, 50, 100, 50, 150, 300,
+  ],
+};
 
 export const config = {
   rows: 5,
@@ -56,7 +69,7 @@ export const config = {
     right: 570,
   },
   ufo: {
-    interval: 60 * 20,
+    interval: 60 * 15,
     initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
     speed: { x: 2 },
     hit: {

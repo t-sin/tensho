@@ -139,6 +139,7 @@ const draw_ufo = (game, state) => {
   game.ctx.fillText(s, x, y);
 };
 
+const nf = new Intl.NumberFormat("ja-JP-u-nu-hanidec", {minimumIntegerDigits: 5, useGrouping: false});
 const draw_ui = (game, state) => {
   game.ctx.font = '23px Noto Sans JP';
   game.ctx.fillStyle = '#000';
@@ -146,6 +147,12 @@ const draw_ui = (game, state) => {
   game.ctx.font = '18px Noto Sans JP';
   let s = ` × ${state.cannon.life}`;
   game.ctx.fillText(s, constant.config.edge.left + 30, constant.config.edge.bottom + 25);
+
+  const score = nf.format(state.score);
+  const hiscore = nf.format(game.hiscore);
+
+  s = `得点 ${score}　最高得点 ${hiscore}`
+  game.ctx.fillText(s, constant.config.edge.right - 320, constant.config.edge.bottom + 25);
 };
 
 const draw_debug = (game, state) => {

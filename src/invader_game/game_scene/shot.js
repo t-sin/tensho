@@ -10,6 +10,7 @@ const move_cannon_shot = (game, state) => {
       shot.x = state.cannon.x;
       shot.y = state.cannon.y - 35;
       shot.state.kind = constant.CANNON_SHOT_MOVING;
+      state.ufo.score.ptr = (state.ufo.score.ptr + 1) % state.ufo.score.table.length;
     }
     break;
 

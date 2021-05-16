@@ -33,7 +33,7 @@ const proc = (game, game_state) => {
     if (game_state.frames > game_state.changed_at + 100) {
       let new_state = state.setup_state();
       new_state.cannon.life = game_state.cannon.life;
-      // new_state.score = game_state.score;
+      new_state.score = game_state.score;
       new_state.kind = constant.GAME_INITIALIZING;
       return new_state;
     }
@@ -54,6 +54,9 @@ const proc = (game, game_state) => {
 
     if (game_state.frames > game_state.changed_at + 300) {
       game_state.go_title = true;
+      if (game_state.score > game.hiscore) {
+        game.hiscore = game_state.score;
+      }
     }
 
     break;

@@ -70,13 +70,13 @@ const detect_hit_by_cannon_shot = (game, state) => {
 
   const in_ufo_x = ufo_hit.x < shot_hit_x && shot_hit_x < ufo_hit.x + ufo_hit.w;
   const in_ufo_y = ufo_hit.y < shot_hit_y && shot_hit_y < ufo_hit.y + ufo_hit.h;
-  console.log(in_ufo_x, in_ufo_y);
 
   if (in_ufo_x && in_ufo_y) {
     shot.state.kind = constant.CANNON_SHOT_DYING;
     shot.state.changed_at = state.frames;
     ufo.state.kind = constant.UFO_DYING;
     ufo.state.changed_at = state.frames;
+    state.score += ufo.score.table[ufo.score.ptr];
   }
 };
 

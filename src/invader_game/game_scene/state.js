@@ -2,15 +2,22 @@ const constant = require('./constant.js');
 
 export const setup_state = () => {
   let state = {
-    go_title: false,
     frames: 1,
+    score: 0,
+
     kind: constant.GAME_INITIALIZING,
     changed_at: 0,
+
+    go_title: false,
   };
 
   state.ufo = {
     x: 0, y: constant.config.ufo.initial.y,
     type: 1,
+    score: {
+      ptr: -1,
+      table: constant.score.ufo,
+    },
     state: {
       kind: constant.UFO_DISABLED,
       changed_at: 0,
