@@ -57,7 +57,7 @@ export const config = {
       topleft: { x: 130, y: 100 },
       offset: { x: 35, y: 29 },
     },
-    speed: { x: 5, y: 15 },
+    speed: { x: 5, y: 20 },
     move_per_frames: 2,
     hit: {
       offset: { x: 3, y: 20 },
