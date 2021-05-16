@@ -37,7 +37,7 @@ const draw_cannon_shot = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
   const cx = state.cannon.shot.x - 5;
-  const cy = state.cannon.shot.y;
+  const cy = state.cannon.shot.y + 10;
 
   switch (state.cannon.shot.state.kind) {
     case constant.CANNON_SHOT_MOVING:
