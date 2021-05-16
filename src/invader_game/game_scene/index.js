@@ -28,7 +28,7 @@ const proc = (game, state) => {
     const message = 'G  A  M  E    O  V  E  R';
 
     game.ctx.fillStyle = '#eee';
-    game.ctx.fillRect(210, 230, 200, 25);
+    game.ctx.fillRect(210, 230, 200, 28);
 
     game.ctx.font = '20px Noto Sans JP';
     game.ctx.fillStyle = '#000';
