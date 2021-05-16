@@ -23,7 +23,7 @@ const draw_cannon = (game, state) => {
 
   game.ctx.fillText(ch, state.cannon.x - 5, state.cannon.y);
 
-  if (game.debug) {
+  if (game.debug_p) {
     const { x, y } = constant.config.cannon.hit.offset;
     game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
     game.ctx.fillRect(
@@ -66,7 +66,7 @@ const draw_invaders = (game, state) => {
       const ch = invader.char[invader.current_char];
       game.ctx.fillText(ch, invader.x, invader.y);
 
-      if (game.debug) {
+      if (game.debug_p) {
         game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
         const { x, y } = constant.config.invaders.hit.offset;
         game.ctx.fillRect(invader.x + x, invader.y - y, constant.config.cannon.hit.width, 25);
@@ -117,7 +117,7 @@ const draw_ufo = (game, state) => {
   case constant.UFO_ALIVE:
     s = constant.ufo[ufo.type];
 
-    if (state.debug) {
+    if (state.debug_p) {
       game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
       const { x: ox , y: oy } = constant.config.ufo.hit.offset;
       const { w, h } = constant.config.ufo.hit.size;
@@ -225,7 +225,7 @@ export const proc = (game, state) => {
   draw_ufo(game, state);
   draw_ui(game, state);
 
-  if (game.debug) {
+  if (game.debug_p) {
     draw_debug(game, state);
   }
 };
