@@ -6,7 +6,6 @@ const invader = require('./invader.js');
 const shot = require('./shot.js');
 
 const proc = (game, state) => {
-
   switch (state.kind) {
   case constant.GAME_INITIALIZING:
     state.kind = constant.GAME_PLAYING;
@@ -22,10 +21,20 @@ const proc = (game, state) => {
     shot.proc(game, state);
     break;
 
-  case constant.PLAYDER_WON:
+  case constant.GAME_PLAYER_WON:
     break;
 
-  case constant.PLAYDER_DEFEATED:
+  case constant.GAME_PLAYER_DEFEATED:
+    const message = 'G  A  M  E    O  V  E  R';
+
+    game.ctx.fillStyle = '#eee';
+    game.ctx.fillRect(210, 230, 200, 25);
+
+    game.ctx.font = '20px Noto Sans JP';
+    game.ctx.fillStyle = '#000';
+    const elapsed = state.frames - state.changed_at;
+    const m = message.slice(0, Math.floor(elapsed / 20));
+    game.ctx.fillText(m, 210 + 10, 230 + 23);
     break;
   }
 

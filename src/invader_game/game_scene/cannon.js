@@ -15,6 +15,10 @@ const move_cannon = (game, state) => {
 const update_cannon = (game, state) => {
   if (state.cannon.state.kind == constant.CANNON_DYING) {
     if (state.frames > state.cannon.state.changed_at + 80) {
+      if (state.cannon.life == 0) {
+        state.kind = constant.GAME_PLAYER_DEFEATED;
+        state.changed_at = state.frames;
+      }
       state.cannon.state.kind = constant.CANNON_ALIVE;
     }
 
