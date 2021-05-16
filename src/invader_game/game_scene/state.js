@@ -3,6 +3,7 @@ const constant = require('./constant.js');
 export const setup_state = () => {
   let state = {
     frames: 1,
+    kind: constant.GAME_INITIALIZING,
   };
 
   state.cannon = {

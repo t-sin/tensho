@@ -1,3 +1,8 @@
+export const GAME_INITIALIZING = 'initializing';
+export const GAME_PLAYING = 'playing';
+export const GAME_PLAYER_DEFEATED = 'player defeated';
+export const GAME_PLAYER_WON = 'player won';
+
 export const CANNON_DISABLED = 'disabled';
 export const CANNON_ALIVE = 'alive';
 export const CANNON_DYING = 'dying';
