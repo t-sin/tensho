@@ -46,10 +46,13 @@ const proc = (game, game_state) => {
     game.ctx.font = '20px Noto Sans JP';
     game.ctx.fillStyle = '#000';
     const elapsed = game_state.frames - game_state.changed_at;
-    const m = message.slice(0, Math.floor(elapsed / 20));
+    const m = message.slice(0, Math.floor(elapsed / 10));
     game.ctx.fillText(m, 210 + 10, 230 + 23);
 
-    game_state.go_title = true;
+    if (game_state.frames > game_state.changed_at + 300) {
+      game_state.go_title = true;
+    }
+
     break;
   }
 
@@ -67,7 +70,7 @@ export const make_scene = (game) => {
     }
 
     if (game.state.go_title) {
-      game.go_title_scene();
+      game.go_title_scene(game);
     }
   };
 
