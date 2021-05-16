@@ -82,7 +82,6 @@ export const setup_state = () => {
     }
   };
 
-  console.table(state);
   return state;
 };
 
