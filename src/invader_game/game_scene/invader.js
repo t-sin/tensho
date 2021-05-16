@@ -126,10 +126,13 @@ const update_one_invader = (state, i, j, invader, turn) => {
   }
 
   const { bottoms } = get_alive_idx(state);
+  const cannon = state.cannon;
   for (let bottom of bottoms) {
     if (bottom != null && i == bottom.i && j == bottom.j) {
       let shot = state.invaders.shot[i];
-      if (shot.state.kind == constant.INVADER_SHOT_DISABLED && invader.to_shot <= 0) {
+      if (cannon.state.kind == constant.CANNON_ALIVE &&
+        shot.state.kind == constant.INVADER_SHOT_DISABLED &&
+        invader.to_shot <= 0) {
         shot.state.kind = constant.INVADER_SHOT_MOVING;
         shot.state.changed_at = state.frames;
         shot.x = invader.x;
