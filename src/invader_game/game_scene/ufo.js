@@ -37,6 +37,12 @@ const update_ufo = (game, state) => {
       ufo.char = constant.ufo[ufo.type];
     }
     break;
+
+  case constant.UFO_DYING:
+    if (state.frames >= ufo.state.changed_at + 10) {
+      ufo.current_char = (ufo.current_char + 1) % ufo.char.length;
+    }
+    break;
   }
 };
 
