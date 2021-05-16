@@ -8,6 +8,12 @@ export const setup_state = () => {
   state.cannon = {
     x: constant.config.cannon.initial.x,
     y: constant.config.cannon.initial.y,
+    char: constant.cannon_alive_anim_pattern,
+    current_char: 0,
+    state: {
+      kind: constant.CANNON_ALIVE,
+      changed_at: 0,
+    },
     shot: {
       x: 0, y: 0,
       state: {
