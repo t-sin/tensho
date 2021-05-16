@@ -2,14 +2,15 @@ const constant = require('./constant.js');
 
 const move_cannon_shot = (game, state) => {
   let shot = state.cannon.shot;
-  if (game.input.shot && shot.state.kind == constant.CANNON_SHOT_DISABLED) {
-    shot.x = state.cannon.x;
-    shot.y = state.cannon.y - 35;
-    shot.state.kind = constant.CANNON_SHOT_MOVING;
-  }
 
   switch (shot.state.kind) {
     case constant.CANNON_SHOT_MOVING:
+    if (game.input.shot && shot.state.kind == constant.CANNON_SHOT_DISABLED) {
+      shot.x = state.cannon.x;
+      shot.y = state.cannon.y - 35;
+      shot.state.kind = constant.CANNON_SHOT_MOVING;
+    }
+
     shot.y -= 10;
     if (shot.y < constant.config.edge.top - 35) {
       shot.state.kind = constant.CANNON_SHOT_DYING;
