@@ -1,6 +1,6 @@
-# 天書 - The sky-rendered characters never be known
+# 天書 - the sky-rendered characters never be known
 
-The realization of the sky-rendered characters in the novella ["Mojika" (文字渦)](https://www.shinchosha.co.jp/book/331162/) by [Toh Enjoe](https://github.com/EnJoeToh).
+The realization of the sky-rendered characters in the book ["Mojika" (文字渦)](https://www.shinchosha.co.jp/book/331162/) by [Toh Enjoe](https://github.com/EnJoeToh).
 
 You can play this game in <https://t-sin.github.io/tensho>.
 
