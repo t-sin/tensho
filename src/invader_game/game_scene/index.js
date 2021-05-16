@@ -16,7 +16,9 @@ const proc = (game, state) => {
     draw.proc(game, state);
 
     cannon.proc(game, state);
-    invader.proc(game, state);
+    if (state.cannon.state.kind == constant.CANNON_ALIVE) {
+      invader.proc(game, state);
+    }
     shot.proc(game, state);
     break;
 
