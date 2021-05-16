@@ -49,6 +49,10 @@ const move_invader_shot = (game, state) => {
 const detect_hit_invader_shot = (game, state) => {
   let cannon = state.cannon;
   for (let shot of state.invaders.shot) {
+    if (shot.state.kind == constant.INVADER_SHOT_DISABLED) {
+      continue;
+    }
+
     const shot_hit_x = shot.x + constant.config.invaders.shot.hit.offset.x;
     const shot_hit_y = shot.y;
     const cannon_hit = {
