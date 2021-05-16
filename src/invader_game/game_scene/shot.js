@@ -1,16 +1,19 @@
 const constant = require('./constant.js');
 
 const move_cannon_shot = (game, state) => {
+  const cannon = state.cannon;
   let shot = state.cannon.shot;
 
   switch (shot.state.kind) {
-    case constant.CANNON_SHOT_MOVING:
-    if (game.input.shot && shot.state.kind == constant.CANNON_SHOT_DISABLED) {
+  case constant.CANNON_SHOT_DISABLED:
+    if (game.input.shot && cannon.state.kind == constant.CANNON_ALIVE) {
       shot.x = state.cannon.x;
       shot.y = state.cannon.y - 35;
       shot.state.kind = constant.CANNON_SHOT_MOVING;
     }
+    break;
 
+  case constant.CANNON_SHOT_MOVING:
     shot.y -= 10;
     if (shot.y < constant.config.edge.top - 35) {
       shot.state.kind = constant.CANNON_SHOT_DYING;
@@ -18,10 +21,10 @@ const move_cannon_shot = (game, state) => {
     }
     break;
 
-    case constant.CANNON_SHOT_DYING:
-      if (state.frames > shot.state.changed_at + 10) {
-        shot.state.kind = constant.CANNON_SHOT_DISABLED;
-      }
+  case constant.CANNON_SHOT_DYING:
+    if (state.frames > shot.state.changed_at + 10) {
+      shot.state.kind = constant.CANNON_SHOT_DISABLED;
+    }
     break;
   }
 };
@@ -58,7 +61,6 @@ const detect_hit_invader_shot = (game, state) => {
     const in_cannon_x = cannon_hit.x1 < shot_hit_x && shot_hit_x < cannon_hit.x2;
     const in_cannon_y = cannon_hit.y1 < shot_hit_y && shot_hit_y < cannon_hit.y2;
     const hit = in_cannon_x && in_cannon_y;
-    console.log(in_cannon_x, in_cannon_y);
 
     if (hit) {
       shot.state.kind = constant.INVADER_SHOT_DISABLED;
