@@ -146,6 +146,10 @@ const update_one_invader = (state, i, j, invader, turn) => {
 };
 
 const move = (state, invader) => {
+  if (invader.state.kind != constant.INVADER_ALIVE) {
+    return
+  }
+
   invader.current_char = (invader.current_char + 1) % invader.char.length;
 
   if (state.invaders.direction_right) {
