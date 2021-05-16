@@ -8,7 +8,8 @@ const shot = require('./shot.js');
 const proc = (game, game_state) => {
   switch (game_state.kind) {
   case constant.GAME_INITIALIZING:
-    game_state.kind = constant.GAME_PLAYING;
+    draw.proc(game, game_state);
+    invader.init(game, game_state);
     break;
 
   case constant.GAME_PLAYING:

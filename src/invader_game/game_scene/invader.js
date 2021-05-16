@@ -193,6 +193,21 @@ const next_invader_idx = (state) => {
   }
 };
 
+export const init = (game, state) => {
+  let invader = state.invaders.array[state.invaders.current];
+  invader.state.kind = constant.INVADER_ALIVE;
+  state.invaders.number_of_alive++;
+
+  state.invaders.current++;
+
+  const all_invaders = constant.config.rows * constant.config.columns;
+  if (state.invaders.current == all_invaders) {
+    state.invaders.current = 0;
+    state.kind = constant.GAME_PLAYING;
+    state.changed_at = state.frames;
+  }
+};
+
 export const proc = (game, state) => {
   reset_alive_checker();
   iterate_all_invaders(check_one_invader, state);

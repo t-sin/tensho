@@ -47,13 +47,12 @@ export const setup_state = () => {
         char: constant.invader_anim_pattern[j],
         current_char: 0,
         state: {
-          kind: constant.INVADER_ALIVE,
+          kind: constant.INVADER_DISABLED,
           changed_at: 0,
         },
         to_shot: Math.floor(Math.random() * 200 + 50),
       };
       state.invaders.array.push(invader);
-      state.invaders.number_of_alive++;
 
       if (j == 0) {
         const shot = {
