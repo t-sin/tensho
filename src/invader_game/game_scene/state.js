@@ -7,6 +7,7 @@ export const setup_state = () => {
   };
 
   state.cannon = {
+    life: 3,
     x: constant.config.cannon.initial.x,
     y: constant.config.cannon.initial.y,
     char: constant.cannon_alive_anim_pattern,

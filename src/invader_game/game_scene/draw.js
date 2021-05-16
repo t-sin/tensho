@@ -103,6 +103,15 @@ const draw_ufo = (game, state) => {
   //game.ctx.fillText('円城', 100, 50);
 };
 
+const draw_ui = (game, state) => {
+  game.ctx.font = '23px Noto Sans JP';
+  game.ctx.fillStyle = '#000';
+  game.ctx.fillText('凸', constant.config.edge.left, constant.config.edge.bottom + 25);
+  game.ctx.font = '18px Noto Sans JP';
+  let s = ` × ${state.cannon.life}`;
+  game.ctx.fillText(s, constant.config.edge.left + 30, constant.config.edge.bottom + 25);
+};
+
 const draw_debug = (game, state) => {
   game.ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
 
@@ -166,6 +175,7 @@ export const proc = (game, state) => {
   draw_invaders(game, state);
   draw_invader_shots(game, state);
   draw_ufo(game, state);
+  draw_ui(game, state);
 
   if (game.debug) {
     draw_debug(game, state);
