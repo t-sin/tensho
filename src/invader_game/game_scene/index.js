@@ -5,20 +5,20 @@ const cannon = require('./cannon.js');
 const invader = require('./invader.js');
 const shot = require('./shot.js');
 
-const proc = (game, state) => {
-  switch (state.kind) {
+const proc = (game, game_state) => {
+  switch (game_state.kind) {
   case constant.GAME_INITIALIZING:
-    state.kind = constant.GAME_PLAYING;
+    game_state.kind = constant.GAME_PLAYING;
     break;
 
   case constant.GAME_PLAYING:
-    draw.proc(game, state);
+    draw.proc(game, game_state);
 
-    cannon.proc(game, state);
-    if (state.cannon.state.kind == constant.CANNON_ALIVE) {
-      invader.proc(game, state);
+    cannon.proc(game, game_state);
+    if (game_state.cannon.state.kind == constant.CANNON_ALIVE) {
+      invader.proc(game, game_state);
     }
-    shot.proc(game, state);
+    shot.proc(game, game_state);
     break;
 
   case constant.GAME_PLAYER_WON:
@@ -32,13 +32,13 @@ const proc = (game, state) => {
 
     game.ctx.font = '20px Noto Sans JP';
     game.ctx.fillStyle = '#000';
-    const elapsed = state.frames - state.changed_at;
+    const elapsed = game_state.frames - game_state.changed_at;
     const m = message.slice(0, Math.floor(elapsed / 20));
     game.ctx.fillText(m, 210 + 10, 230 + 23);
     break;
   }
 
-  state.frames++;
+  game_state.frames++;
 };
 
 export const make_game_scene = (game) => {
