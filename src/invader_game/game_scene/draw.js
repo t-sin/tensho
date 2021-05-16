@@ -37,7 +37,7 @@ const draw_cannon_shot = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
   const cx = state.cannon.shot.x - 5;
-  const cy = state.cannon.shot.y + 25;
+  const cy = state.cannon.shot.y;
 
   switch (state.cannon.shot.state.kind) {
     case constant.CANNON_SHOT_MOVING:
@@ -65,9 +65,9 @@ const draw_invaders = (game, state) => {
     if (invader.state.kind == constant.INVADER_ALIVE) {
       const ch = invader.char[invader.current_char];
       game.ctx.fillText(ch, invader.x, invader.y);
-      game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
 
       if (game.debug) {
+        game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
         const { x, y } = constant.config.invaders.hit.offset;
         game.ctx.fillRect(invader.x + x, invader.y - y, constant.config.cannon.hit.width, 25);
       }
@@ -89,11 +89,22 @@ const draw_invader_shots = (game, state) => {
   game.ctx.fillStyle = '#000';
 
   for (let shot of state.invaders.shot) {
+    let ch;
+    const { x, y } = constant.config.invaders.shot.hit.offset;
+    let sx = shot.x;
+    let sy = shot.y + 10;
+
     if (shot.state.kind == constant.INVADER_SHOT_MOVING) {
-      const ch = shot.char[shot.current_char];
-      const { x, y } = constant.config.invaders.shot.hit.offset;
-      game.ctx.fillText(ch, shot.x + x, shot.y + y);
+      ch = shot.char[shot.current_char];
+      sx += x;
+
+    } else if (shot.state.kind == constant.INVADER_SHOT_DYING) {
+      ch = '⺌';
+    } else {
+      ch = '';
     }
+
+    game.ctx.fillText(ch, sx, sy);
   }
 };
 
@@ -114,6 +125,11 @@ const draw_ui = (game, state) => {
 
 const draw_debug = (game, state) => {
   game.ctx.strokeStyle = 'rgba(255, 0, 0, 0.2)';
+
+  game.ctx.beginPath();
+  game.ctx.moveTo(constant.config.edge.left, constant.config.edge.top + 0.5);
+  game.ctx.lineTo(constant.config.edge.right, constant.config.edge.top + 0.5);
+  game.ctx.stroke();
 
   game.ctx.beginPath();
   game.ctx.moveTo(constant.config.edge.right + 0.5, 0);
