@@ -17,10 +17,10 @@ const proc = (game, game_state) => {
     draw.proc(game, game_state);
 
     cannon.proc(game, game_state);
-    ufo.proc(game, game_state);
     if (game_state.cannon.state.kind == constant.CANNON_ALIVE) {
       invader.proc(game, game_state);
     }
+    ufo.proc(game, game_state);
     shot.proc(game, game_state);
     break;
 

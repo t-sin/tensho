@@ -28,7 +28,7 @@ export const ufo = [
   '円城塔',
 ];
 
-export const ufo_dying_anim_pattern = '⺗⺣';
+export const ufo_dying_anim_pattern = '⺍丷';
 
 export const cannon_alive_anim_pattern = '凸';
 export const cannon_dying_anim_pattern = '⺍丷';
@@ -60,8 +60,8 @@ export const config = {
     initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
     speed: { x: 2 },
     hit: {
-      offset: { x: 0, y: 0 },
-      size: { w: 20 * 3, h: 20 },
+      offset: { x: 0, y: -15 },
+      size: { w: 20 * 2.5, h: 20 },
     },
   },
   cannon: {

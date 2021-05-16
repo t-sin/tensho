@@ -109,9 +109,6 @@ const draw_invader_shots = (game, state) => {
 };
 
 const draw_ufo = (game, state) => {
-  game.ctx.font = '18px Noto Sans JP';
-  game.ctx.fillStyle = '#000';
-
   const ufo = state.ufo;
   let { x, y } = ufo;
   let s;
@@ -119,16 +116,26 @@ const draw_ufo = (game, state) => {
   switch (ufo.state.kind) {
   case constant.UFO_ALIVE:
     s = constant.ufo[ufo.type];
+
+    if (state.debug) {
+      game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+      const { x: ox , y: oy } = constant.config.ufo.hit.offset;
+      const { w, h } = constant.config.ufo.hit.size;
+      game.ctx.fillRect(x + ox, y + oy, w, h);
+    }
+
     break;
 
   case constant.UFO_DYING:
-    s = constant.ufo_dying_anim_pattern[ufo.current_char];
+    s = constant.ufo_dying_anim_pattern;
     break;
 
   default:
     s = '';
   }
 
+  game.ctx.font = '18px Noto Sans JP';
+  game.ctx.fillStyle = '#000';
   game.ctx.fillText(s, x, y);
 };
 

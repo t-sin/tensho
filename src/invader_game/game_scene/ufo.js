@@ -39,14 +39,49 @@ const update_ufo = (game, state) => {
     break;
 
   case constant.UFO_DYING:
-    if (state.frames >= ufo.state.changed_at + 10) {
+    if (state.frames - ufo.state.changed_at % 10 == 0) {
       ufo.current_char = (ufo.current_char + 1) % ufo.char.length;
     }
+
+    if (state.frames > ufo.state.changed_at + 15) {
+      ufo.state.kind = constant.UFO_DISABLED;
+      ufo.state.changed_at = state.frames;
+    }
+
     break;
+  }
+};
+
+const detect_hit_by_cannon_shot = (game, state) => {
+  let shot = state.cannon.shot;
+  let ufo = state.ufo;
+
+  if (shot.state.kind != constant.CANNON_SHOT_MOVING) return;
+  if (ufo.state.kind != constant.UFO_ALIVE) return;
+
+  const shot_hit_x = shot.x + constant.config.cannon.shot.hit.offset.x;
+  const shot_hit_y = shot.y;
+  const ufo_hit = {
+    x: ufo.x + constant.config.ufo.hit.offset.x,
+    y: ufo.y + constant.config.ufo.hit.offset.y,
+    w: constant.config.ufo.hit.size.w,
+    h: constant.config.ufo.hit.size.h,
+  };
+
+  const in_ufo_x = ufo_hit.x < shot_hit_x && shot_hit_x < ufo_hit.x + ufo_hit.w;
+  const in_ufo_y = ufo_hit.y < shot_hit_y && shot_hit_y < ufo_hit.y + ufo_hit.h;
+  console.log(in_ufo_x, in_ufo_y);
+
+  if (in_ufo_x && in_ufo_y) {
+    shot.state.kind = constant.CANNON_SHOT_DYING;
+    shot.state.changed_at = state.frames;
+    ufo.state.kind = constant.UFO_DYING;
+    ufo.state.changed_at = state.frames;
   }
 };
 
 export const proc = (game, state) => {
   move_ufo(game, state);
+  detect_hit_by_cannon_shot(game, state);
   update_ufo(game, state);
 };

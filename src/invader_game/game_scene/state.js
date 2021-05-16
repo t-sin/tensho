@@ -11,8 +11,6 @@ export const setup_state = () => {
   state.ufo = {
     x: 0, y: constant.config.ufo.initial.y,
     type: 1,
-    char: constant.ufo[0],
-    current_char: 0,
     state: {
       kind: constant.UFO_DISABLED,
       changed_at: 0,
