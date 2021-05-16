@@ -2,6 +2,7 @@ const constant = require('./constant.js');
 
 export const setup_state = () => {
   let state = {
+    go_title: false,
     frames: 1,
     kind: constant.GAME_INITIALIZING,
     changed_at: 0,

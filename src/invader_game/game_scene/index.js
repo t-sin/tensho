@@ -48,6 +48,8 @@ const proc = (game, game_state) => {
     const elapsed = game_state.frames - game_state.changed_at;
     const m = message.slice(0, Math.floor(elapsed / 20));
     game.ctx.fillText(m, 210 + 10, 230 + 23);
+
+    game_state.go_title = true;
     break;
   }
 
@@ -55,7 +57,7 @@ const proc = (game, game_state) => {
   return null;
 };
 
-export const make_game_scene = (game) => {
+export const make_scene = (game) => {
   game.state = state.setup_state();
 
   const frame_fn = () => {
@@ -64,7 +66,9 @@ export const make_game_scene = (game) => {
       game.state = new_state;
     }
 
-    window.requestAnimationFrame(frame_fn);
+    if (game.state.go_title) {
+      game.go_title_scene();
+    }
   };
 
   return frame_fn;
