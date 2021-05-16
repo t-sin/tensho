@@ -19,8 +19,9 @@ const draw_cannon = (game, state) => {
     const { x, y } = constant.config.cannon.hit.offset;
     game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
     game.ctx.fillRect(
-      state.cannon.x - x, state.cannon.y - y,
-      constant.config.cannon.hit.width, 5);
+      state.cannon.x + constant.config.cannon.hit.offset.x,
+      state.cannon.y - constant.config.cannon.hit.offset.y,
+      constant.config.cannon.hit.width, 25);
   }
 };
 
@@ -59,8 +60,8 @@ const draw_invaders = (game, state) => {
       game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
 
       if (game.debug) {
-        const { x, y } = constant.config.cannon.hit.offset;
-        game.ctx.fillRect(invader.x + x, invader.y, constant.config.cannon.hit.width, 5);
+        const { x, y } = constant.config.invaders.hit.offset;
+        game.ctx.fillRect(invader.x + x, invader.y - y, constant.config.cannon.hit.width, 25);
       }
 
     } else if (invader.state.kind == constant.INVADER_DYING) {
@@ -82,7 +83,8 @@ const draw_invader_shots = (game, state) => {
   for (let shot of state.invaders.shot) {
     if (shot.state.kind == constant.INVADER_SHOT_MOVING) {
       const ch = shot.char[shot.current_char];
-      game.ctx.fillText(ch, shot.x + 10, shot.y);
+      const { x, y } = constant.config.invaders.shot.hit.offset;
+      game.ctx.fillText(ch, shot.x + x, shot.y + y);
     }
   }
 };
