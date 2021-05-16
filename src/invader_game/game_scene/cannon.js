@@ -14,6 +14,10 @@ const move_cannon = (game, state) => {
 
 const update_cannon = (game, state) => {
   if (state.cannon.state.kind == constant.CANNON_DYING) {
+    if (state.frames > state.cannon.state.changed_at + 80) {
+      state.cannon.state.kind = constant.CANNON_ALIVE;
+    }
+
     if (state.frames % 8 == 0 || false) {
       state.cannon.current_char++;
       state.cannon.current_char %= state.cannon.char.length;
