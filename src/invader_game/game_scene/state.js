@@ -49,7 +49,7 @@ export const setup_state = () => {
           kind: constant.INVADER_ALIVE,
           changed_at: 0,
         },
-        to_shot: Math.floor(Math.random() * 300),
+        to_shot: Math.floor(Math.random() * 200 + 50),
       };
       state.invaders.array.push(invader);
       state.invaders.number_of_alive++;
