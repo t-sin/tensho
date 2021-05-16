@@ -22,6 +22,19 @@ const proc = (game, game_state) => {
     break;
 
   case constant.GAME_PLAYER_WON:
+    draw.proc(game, game_state);
+
+    invader.proc(game, game_state);
+    shot.proc(game, game_state);
+
+    if (game_state.frames > game_state.changed_at + 100) {
+      let new_state = state.setup_state();
+      new_state.cannon.life = game_state.cannon.life;
+      // new_state.score = game_state.score;
+      new_state.kind = constant.GAME_INITIALIZING;
+      return new_state;
+    }
+
     break;
 
   case constant.GAME_PLAYER_DEFEATED:
@@ -39,13 +52,18 @@ const proc = (game, game_state) => {
   }
 
   game_state.frames++;
+  return null;
 };
 
 export const make_game_scene = (game) => {
-  let game_state = state.setup_state();
+  game.state = state.setup_state();
 
   const frame_fn = () => {
-    proc(game, game_state);
+    let new_state = proc(game, game.state);
+    if (new_state != null) {
+      game.state = new_state;
+    }
+
     window.requestAnimationFrame(frame_fn);
   };
 
