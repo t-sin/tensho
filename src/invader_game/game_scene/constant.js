@@ -19,6 +19,17 @@ export const INVADER_DISABLED = 'disabled';
 export const INVADER_ALIVE = 'alive';
 export const INVADER_DYING = 'dying';
 
+export const UFO_DISABLED = 'disabled';
+export const UFO_ALIVE = 'alive';
+export const UFO_DYING = 'dying';
+
+export const ufo = [
+  '文字渦',
+  '円城塔',
+];
+
+export const ufo_dying_anim_pattern = '⺗⺣';
+
 export const cannon_alive_anim_pattern = '凸';
 export const cannon_dying_anim_pattern = '⺍丷';
 
@@ -43,6 +54,15 @@ export const config = {
     bottom: 440,
     left: 70,
     right: 570,
+  },
+  ufo: {
+    interval: 60 * 5,
+    initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
+    speed: { x: 2 },
+    hit: {
+      offset: { x: 0, y: 0 },
+      size: { w: 20 * 3, h: 20 },
+    },
   },
   cannon: {
     initial: { x: 320, y: 430 },

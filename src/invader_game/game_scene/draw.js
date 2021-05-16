@@ -111,7 +111,25 @@ const draw_invader_shots = (game, state) => {
 const draw_ufo = (game, state) => {
   game.ctx.font = '18px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  //game.ctx.fillText('円城', 100, 50);
+
+  const ufo = state.ufo;
+  let { x, y } = ufo;
+  let s;
+
+  switch (ufo.state.kind) {
+  case constant.UFO_ALIVE:
+    s = constant.ufo[ufo.type];
+    break;
+
+  case constant.UFO_DYING:
+    s = constant.ufo_dying_anim_pattern[ufo.current_char];
+    break;
+
+  default:
+    s = '';
+  }
+
+  game.ctx.fillText(s, x, y);
 };
 
 const draw_ui = (game, state) => {

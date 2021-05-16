@@ -4,6 +4,7 @@ const draw = require('./draw.js');
 const cannon = require('./cannon.js');
 const invader = require('./invader.js');
 const shot = require('./shot.js');
+const ufo = require('./ufo.js');
 
 const proc = (game, game_state) => {
   switch (game_state.kind) {
@@ -16,6 +17,7 @@ const proc = (game, game_state) => {
     draw.proc(game, game_state);
 
     cannon.proc(game, game_state);
+    ufo.proc(game, game_state);
     if (game_state.cannon.state.kind == constant.CANNON_ALIVE) {
       invader.proc(game, game_state);
     }
