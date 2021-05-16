@@ -211,11 +211,11 @@ export const proc = (game, state) => {
   const current = state.invaders.current;
   move(state, state.invaders.array[current]);
 
-  next_invader_idx(state);
-
-  if (state.invaders.number_of_alive == 0) {
-    return true;
+  if (state.kind == constant.GAME_PLAYING && state.invaders.number_of_alive == 0) {
+    state.kind = constant.GAME_PLAYER_WON;
+    state.changed_at = state.frames;
+    return;
   }
 
-  return false
+  next_invader_idx(state);
 };
