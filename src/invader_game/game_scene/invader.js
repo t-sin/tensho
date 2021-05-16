@@ -178,10 +178,8 @@ const on_edge = (state) => {
 };
 
 const next_invader_idx = (state) => {
-  const next = state.invaders.current + 1;
   state.invaders.current++;
   state.invaders.current %= state.invaders.array.length;
-
 
   let invader = state.invaders.array[state.invaders.current];
   while (invader.state.kind != constant.INVADER_ALIVE) {
