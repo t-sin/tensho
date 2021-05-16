@@ -31,7 +31,8 @@ const move_cannon_shot = (game, state) => {
 
 const move_invader_shot = (game, state) => {
   for (let shot of state.invaders.shot) {
-    if (shot.state.kind == constant.INVADER_SHOT_MOVING) {
+    switch (shot.state.kind) {
+    case constant.INVADER_SHOT_MOVING:
       shot.y += 4;
 
       if (state.frames % 5 == 0) {
@@ -42,6 +43,13 @@ const move_invader_shot = (game, state) => {
       if (shot.y > constant.config.edge.bottom - constant.config.invaders.shot.hit.offset.y) {
         shot.state.kind = constant.INVADER_SHOT_DISABLED;
       }
+      break;
+
+    case constant.INVADER_SHOT_DYING:
+      if (state.frames > shot.state.changed_at + 10) {
+        shot.state.kind = constant.INVADER_SHOT_DISABLED;
+      }
+      break;
     }
   }
 };
@@ -80,8 +88,32 @@ const detect_hit_invader_shot = (game, state) => {
   }
 };
 
+const detect_hit_with_invader_and_cannon_shot = (state) => {
+  let cannon_shot = state.cannon.shot;
+  if (cannon_shot.state.kind != constant.CANNON_SHOT_MOVING) {
+    return;
+  }
+
+  for (let invader_shot of state.invaders.shot) {
+    if (invader_shot.state.kind != constant.INVADER_SHOT_MOVING) {
+      continue;
+    }
+
+    const hit_x = Math.abs(cannon_shot.x - (invader_shot.x + 10)) < 10;
+    const hit_y = Math.abs(cannon_shot.y - invader_shot.y) < 6;
+
+    if (hit_x && hit_y) {
+      cannon_shot.state.kind = constant.CANNON_SHOT_DYING;
+      cannon_shot.state.changed_at = state.frames;
+      invader_shot.state.kind = constant.INVADER_SHOT_DYING;
+      invader_shot.state.changed_at = state.frames;
+    }
+  }
+};
+
 export const proc = (game, state) => {
   move_cannon_shot(game, state);
   move_invader_shot(game, state);
+  detect_hit_with_invader_and_cannon_shot(state);
   detect_hit_invader_shot(game, state);
 };
