@@ -13,7 +13,15 @@ const draw_ground = (game, state) => {
 const draw_cannon = (game, state) => {
   game.ctx.font = '25px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  game.ctx.fillText('凸', state.cannon.x - 5, state.cannon.y);
+
+  let ch;
+  if (state.cannon.state.kind == constant.CANNON_ALIVE) {
+    ch = constant.cannon_alive_anim_pattern;
+  } else if (state.cannon.state.kind == constant.CANNON_DYING) {
+    ch = constant.cannon_dying_anim_pattern[state.cannon.current_char];
+  }
+
+  game.ctx.fillText(ch, state.cannon.x - 5, state.cannon.y);
 
   if (game.debug) {
     const { x, y } = constant.config.cannon.hit.offset;
