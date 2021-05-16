@@ -1,3 +1,7 @@
+export const CANNON_DISABLED = 'disabled';
+export const CANNON_ALIVE = 'alive';
+export const CANNON_DYING = 'dying';
+
 export const CANNON_SHOT_DISABLED = 'disabled';
 export const CANNON_SHOT_MOVING = 'moving';
 export const CANNON_SHOT_DYING = 'dying';
@@ -9,6 +13,9 @@ export const INVADER_SHOT_DYING = 'dying';
 export const INVADER_DISABLED = 'disabled';
 export const INVADER_ALIVE = 'alive';
 export const INVADER_DYING = 'dying';
+
+export const cannon_alive_anim_pattern = '凸';
+export const cannon_dying_anim_pattern = '⺍丷';
 
 export const invader_anim_pattern = [
   "閧闘",
@@ -36,12 +43,12 @@ export const config = {
     initial: { x: 320, y: 430 },
     speed: { x: 5 },
     hit: {
-      offset: { x: 3, y: 20 },
+      offset: { x: -3, y: 20 },
       width: 20,
     },
     shot: {
       hit: {
-        offset: { x: 10, y: 20 },
+        offset: { x: 7, y: 20 },
       },
     },
   },
@@ -57,5 +64,10 @@ export const config = {
       width: 20,
     },
     size: 25,
+    shot: {
+      hit: {
+        offset: { x: 10, y: 0 },
+      },
+    },
   },
 };
