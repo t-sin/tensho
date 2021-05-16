@@ -56,7 +56,7 @@ export const config = {
     right: 570,
   },
   ufo: {
-    interval: 60 * 5,
+    interval: 60 * 20,
     initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
     speed: { x: 2 },
     hit: {
