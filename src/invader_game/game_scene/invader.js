@@ -136,7 +136,7 @@ const update_one_invader = (state, i, j, invader, turn) => {
         shot.state.kind = constant.INVADER_SHOT_MOVING;
         shot.state.changed_at = state.frames;
         shot.x = invader.x;
-        shot.y = invader.y + constant.config.invaders.size;
+        shot.y = invader.y;
         invader.to_shot = Math.floor(Math.random() * 250 + 100);
       }
     }
