@@ -90,7 +90,6 @@ export const setup_state = () => {
     }
   }
 
-  state.debug_p = false;
   state.debug = {
     invaders: {
       alive: {
