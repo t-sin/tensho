@@ -6,17 +6,17 @@ const move_ufo = (game, state) => {
   if (ufo.state.kind == constant.UFO_ALIVE) {
 
     if (ufo.type == 0) {
-      ufo.x += constant.config.ufo.speed.x;
+      ufo.x += constant.ufo.speed.x;
 
-      if (ufo.x > constant.config.ufo.initial.x[ufo.type + 1]) {
+      if (ufo.x > constant.ufo.initial.x[ufo.type + 1]) {
         ufo.state.kind = constant.UFO_DISABLED;
         ufo.state.changed_at = state.frames;
       }
 
     } else {
-      ufo.x -= constant.config.ufo.speed.x;
+      ufo.x -= constant.ufo.speed.x;
 
-      if (ufo.x < constant.config.ufo.initial.x[ufo.type - 1]) {
+      if (ufo.x < constant.ufo.initial.x[ufo.type - 1]) {
         ufo.state.kind = constant.UFO_DISABLED;
         ufo.state.changed_at = state.frames;
       }
@@ -29,12 +29,11 @@ const update_ufo = (game, state) => {
 
   switch (ufo.state.kind) {
   case constant.UFO_DISABLED:
-    if (state.frames >= ufo.state.changed_at + constant.config.ufo.interval) {
+    if (state.frames >= ufo.state.changed_at + constant.ufo.interval) {
       ufo.state.kind = constant.UFO_ALIVE;
       ufo.state.changed_at = state.frames;
-      ufo.type = (ufo.type + 1) % constant.ufo.length;
-      ufo.x = constant.config.ufo.initial.x[ufo.type];
-      ufo.char = constant.ufo[ufo.type];
+      ufo.type = (ufo.type + 1) % constant.ufo.str.length;
+      ufo.x = constant.ufo.initial.x[ufo.type];
     }
     break;
 
@@ -59,13 +58,13 @@ const detect_hit_by_cannon_shot = (game, state) => {
   if (shot.state.kind != constant.CANNON_SHOT_MOVING) return;
   if (ufo.state.kind != constant.UFO_ALIVE) return;
 
-  const shot_hit_x = shot.x + constant.config.cannon.shot.hit.offset.x;
+  const shot_hit_x = shot.x + constant.cannon.shot.hit.offset.x;
   const shot_hit_y = shot.y;
   const ufo_hit = {
-    x: ufo.x + constant.config.ufo.hit.offset.x,
-    y: ufo.y + constant.config.ufo.hit.offset.y,
-    w: constant.config.ufo.hit.size.w,
-    h: constant.config.ufo.hit.size.h,
+    x: ufo.x + constant.ufo.hit.offset.x,
+    y: ufo.y + constant.ufo.hit.offset.y,
+    w: constant.ufo.hit.size.w,
+    h: constant.ufo.hit.size.h,
   };
 
   const in_ufo_x = ufo_hit.x < shot_hit_x && shot_hit_x < ufo_hit.x + ufo_hit.w;

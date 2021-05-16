@@ -23,11 +23,6 @@ export const UFO_DISABLED = 'disabled';
 export const UFO_ALIVE = 'alive';
 export const UFO_DYING = 'dying';
 
-export const ufo = [
-  '文字渦',
-  '円城塔',
-];
-
 export const ufo_dying_anim_pattern = '⺍丷';
 
 export const cannon_alive_anim_pattern = '凸';
@@ -68,44 +63,52 @@ export const config = {
     left: 70,
     right: 570,
   },
-  ufo: {
-    interval: 60 * 15,
-    initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
-    speed: { x: 2 },
+};
+
+
+export const ufo = {
+  str: [
+    '文字渦',
+    '円城塔',
+  ],
+  interval: 60 * 15,
+  initial: { x: [50 - Math.floor(18 * 1.5), 570 - Math.floor(18 * 1.5)], y: 70 },
+  speed: { x: 2 },
+  hit: {
+    offset: { x: 0, y: -15 },
+    size: { w: 20 * 2.5, h: 20 },
+  },
+};
+
+export const cannon = {
+  initial: { x: 320, y: 430 },
+  speed: { x: 5 },
+  hit: {
+    offset: { x: -3, y: 20 },
+    width: 20,
+  },
+  shot: {
     hit: {
-      offset: { x: 0, y: -15 },
-      size: { w: 20 * 2.5, h: 20 },
+      offset: { x: 7, y: 20 },
     },
   },
-  cannon: {
-    initial: { x: 320, y: 430 },
-    speed: { x: 5 },
-    hit: {
-      offset: { x: -3, y: 20 },
-      width: 20,
-    },
-    shot: {
-      hit: {
-        offset: { x: 7, y: 20 },
-      },
-    },
+};
+
+export const invaders = {
+  initial: {
+    topleft: { x: 130, y: 100 },
+    offset: { x: 35, y: 29 },
   },
-  invaders: {
-    initial: {
-      topleft: { x: 130, y: 100 },
-      offset: { x: 35, y: 29 },
-    },
-    speed: { x: 5, y: 20 },
-    move_per_frames: 2,
+  speed: { x: 5, y: 20 },
+  move_per_frames: 2,
+  hit: {
+    offset: { x: 3, y: 20 },
+    width: 20,
+  },
+  size: 25,
+  shot: {
     hit: {
-      offset: { x: 3, y: 20 },
-      width: 20,
-    },
-    size: 25,
-    shot: {
-      hit: {
-        offset: { x: 10, y: 0 },
-      },
+      offset: { x: 10, y: 0 },
     },
   },
 };

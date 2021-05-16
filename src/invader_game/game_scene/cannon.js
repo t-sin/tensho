@@ -3,11 +3,11 @@ const constant = require('./constant.js');
 const move_cannon = (game, state) => {
   if (state.cannon.state.kind == constant.CANNON_ALIVE) {
     if (game.input.left && state.cannon.x > constant.config.edge.left - 5) {
-      state.cannon.x -= constant.config.cannon.speed.x;
+      state.cannon.x -= constant.cannon.speed.x;
     }
 
     if (game.input.right && state.cannon.x < constant.config.edge.right - 5) {
-      state.cannon.x += constant.config.cannon.speed.x;
+      state.cannon.x += constant.cannon.speed.x;
     }
   }
 };

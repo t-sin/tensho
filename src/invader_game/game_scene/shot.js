@@ -16,7 +16,7 @@ const move_cannon_shot = (game, state) => {
 
   case constant.CANNON_SHOT_MOVING:
     shot.y -= 10;
-    if (shot.y < constant.config.edge.top) {
+    if (shot.y < constant.edge.top) {
       shot.state.kind = constant.CANNON_SHOT_DYING;
       shot.state.changed_at = state.frames;
     }
@@ -41,7 +41,7 @@ const move_invader_shot = (game, state) => {
         shot.current_char %= shot.char.length;
       }
 
-      if (shot.y > constant.config.edge.bottom - constant.config.invaders.shot.hit.offset.y) {
+      if (shot.y > constant.config.edge.bottom - constant.invaders.shot.hit.offset.y) {
         shot.state.kind = constant.INVADER_SHOT_DISABLED;
       }
       break;
@@ -70,13 +70,13 @@ const detect_hit_invader_shot = (game, state) => {
       continue;
     }
 
-    const shot_hit_x = shot.x + constant.config.invaders.shot.hit.offset.x;
+    const shot_hit_x = shot.x + constant.invaders.shot.hit.offset.x;
     const shot_hit_y = shot.y;
     const cannon_hit = {
-      x1: cannon.x + constant.config.cannon.hit.offset.x,
-      x2: cannon.x + constant.config.cannon.hit.offset.x + constant.config.cannon.hit.width,
-      y1: cannon.y - constant.config.cannon.hit.offset.y,
-      y2: cannon.y - constant.config.cannon.hit.offset.y + 25,
+      x1: cannon.x + constant.cannon.hit.offset.x,
+      x2: cannon.x + constant.cannon.hit.offset.x + constant.cannon.hit.width,
+      y1: cannon.y - constant.cannon.hit.offset.y,
+      y2: cannon.y - constant.cannon.hit.offset.y + 25,
     };
 
     const in_cannon_x = cannon_hit.x1 < shot_hit_x && shot_hit_x < cannon_hit.x2;

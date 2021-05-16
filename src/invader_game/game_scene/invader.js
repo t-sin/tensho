@@ -81,13 +81,13 @@ const check_one_invader = (state, i, j, invader) => {
 };
 
 const is_hit = (shot, invader) => {
-  const shot_hit_x = shot.x + constant.config.cannon.shot.hit.offset.x;
+  const shot_hit_x = shot.x + constant.cannon.shot.hit.offset.x;
   const shot_hit_y = shot.y;
   const invader_hit = {
-    x1: invader.x + constant.config.invaders.hit.offset.x,
-    x2: invader.x + constant.config.invaders.hit.offset.x + constant.config.invaders.hit.width,
-    y1: invader.y - constant.config.invaders.hit.offset.y,
-    y2: invader.y - constant.config.invaders.hit.offset.y + 25,
+    x1: invader.x + constant.invaders.hit.offset.x,
+    x2: invader.x + constant.invaders.hit.offset.x + constant.invaders.hit.width,
+    y1: invader.y - constant.invaders.hit.offset.y,
+    y2: invader.y - constant.invaders.hit.offset.y + 25,
   };
 
   const in_invader_x = invader_hit.x1 < shot_hit_x && shot_hit_x < invader_hit.x2;
@@ -111,7 +111,7 @@ const kill_invader = (state, shot, i, j, invader) => {
 
 const update_one_invader = (state, i, j, invader, turn) => {
   if (turn) {
-    invader.y += constant.config.invaders.speed.y;
+    invader.y += constant.invaders.speed.y;
   }
 
   if (invader.state.kind == constant.INVADER_DYING) {
@@ -154,9 +154,9 @@ const move = (state, invader) => {
   invader.current_char = (invader.current_char + 1) % invader.char.length;
 
   if (state.invaders.direction_right) {
-    invader.x += constant.config.invaders.speed.x;
+    invader.x += constant.invaders.speed.x;
   } else {
-    invader.x -= constant.config.invaders.speed.x;
+    invader.x -= constant.invaders.speed.x;
   }
 };
 

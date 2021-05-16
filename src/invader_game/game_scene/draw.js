@@ -24,12 +24,12 @@ const draw_cannon = (game, state) => {
   game.ctx.fillText(ch, state.cannon.x - 5, state.cannon.y);
 
   if (game.debug_p) {
-    const { x, y } = constant.config.cannon.hit.offset;
+    const { x, y } = constant.cannon.hit.offset;
     game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
     game.ctx.fillRect(
-      state.cannon.x + constant.config.cannon.hit.offset.x,
-      state.cannon.y - constant.config.cannon.hit.offset.y,
-      constant.config.cannon.hit.width, 25);
+      state.cannon.x + constant.cannon.hit.offset.x,
+      state.cannon.y - constant.cannon.hit.offset.y,
+      constant.cannon.hit.width, 25);
   }
 };
 
@@ -68,8 +68,8 @@ const draw_invaders = (game, state) => {
 
       if (game.debug_p) {
         game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-        const { x, y } = constant.config.invaders.hit.offset;
-        game.ctx.fillRect(invader.x + x, invader.y - y, constant.config.cannon.hit.width, 25);
+        const { x, y } = constant.invaders.hit.offset;
+        game.ctx.fillRect(invader.x + x, invader.y - y, constant.cannon.hit.width, 25);
       }
 
     } else if (invader.state.kind == constant.INVADER_DYING) {
@@ -90,7 +90,7 @@ const draw_invader_shots = (game, state) => {
 
   for (let shot of state.invaders.shot) {
     let ch;
-    const { x, y } = constant.config.invaders.shot.hit.offset;
+    const { x, y } = constant.invaders.shot.hit.offset;
     let sx = shot.x;
     let sy = shot.y + 10;
 
@@ -115,12 +115,12 @@ const draw_ufo = (game, state) => {
 
   switch (ufo.state.kind) {
   case constant.UFO_ALIVE:
-    s = constant.ufo[ufo.type];
+    s = constant.ufo.str[ufo.type];
 
     if (state.debug_p) {
       game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-      const { x: ox , y: oy } = constant.config.ufo.hit.offset;
-      const { w, h } = constant.config.ufo.hit.size;
+      const { x: ox , y: oy } = constant.ufo.hit.offset;
+      const { w, h } = constant.ufo.hit.size;
       game.ctx.fillRect(x + ox, y + oy, w, h);
     }
 

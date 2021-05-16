@@ -12,12 +12,13 @@ export const setup_state = () => {
   };
 
   state.ufo = {
-    x: 0, y: constant.config.ufo.initial.y,
+    x: 0, y: constant.ufo.initial.y,
     type: 1,
     score: {
       ptr: -1,
       table: constant.score.ufo,
     },
+    current_char: 0,
     state: {
       kind: constant.UFO_DISABLED,
       changed_at: 0,
@@ -26,8 +27,8 @@ export const setup_state = () => {
 
   state.cannon = {
     life: 3,
-    x: constant.config.cannon.initial.x,
-    y: constant.config.cannon.initial.y,
+    x: constant.cannon.initial.x,
+    y: constant.cannon.initial.y,
     char: constant.cannon_alive_anim_pattern,
     current_char: 0,
     state: {
@@ -43,6 +44,10 @@ export const setup_state = () => {
     },
   };
 
+  state.torchka = {
+    array: [],
+  };
+
   state.invaders = {
     array: [],
     number_of_alive: 0,
@@ -51,15 +56,15 @@ export const setup_state = () => {
     shot: [],
   };
 
-  const ix = constant.config.invaders.initial.topleft.x;
-  const iy = constant.config.invaders.initial.topleft.y;
+  const ix = constant.invaders.initial.topleft.x;
+  const iy = constant.invaders.initial.topleft.y;
 
   for (let j = 0; j < constant.config.rows; j++) {
     for (let i = 0; i < constant.config.columns; i++) {
       const n = Math.floor(Math.random() * constant.invader_shot_anim_pattern.length);
       const invader = {
-        x: ix + constant.config.invaders.initial.offset.x * i,
-        y: iy + constant.config.invaders.initial.offset.y * (5 - j),
+        x: ix + constant.invaders.initial.offset.x * i,
+        y: iy + constant.invaders.initial.offset.y * (5 - j),
         char: constant.invader_anim_pattern[j],
         current_char: 0,
         state: {
