@@ -16,7 +16,7 @@ const move_cannon_shot = (game, state) => {
 
   case constant.CANNON_SHOT_MOVING:
     shot.y -= 10;
-    if (shot.y < constant.edge.top) {
+    if (shot.y < constant.config.edge.top) {
       shot.state.kind = constant.CANNON_SHOT_DYING;
       shot.state.changed_at = state.frames;
     }
