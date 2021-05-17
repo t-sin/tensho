@@ -41,7 +41,7 @@ const move_invader_shot = (game, state) => {
         shot.current_char %= shot.char.length;
       }
 
-      if (shot.y > constant.config.edge.bottom - constant.invaders.shot.hit.offset.y) {
+      if (shot.y -  constant.invaders.shot.hit.offset.y > constant.config.edge.bottom) {
         shot.state.kind = constant.INVADER_SHOT_DISABLED;
       }
       break;
@@ -74,16 +74,15 @@ const detect_hit_invader_shot = (game, state) => {
     const shot_hit_y = shot.y;
     const cannon_hit = {
       x1: cannon.x + constant.cannon.hit.offset.x,
-      x2: cannon.x + constant.cannon.hit.offset.x + constant.cannon.hit.width,
+      x2: cannon.x + constant.cannon.hit.offset.x + constant.cannon.hit.size.w,
       y1: cannon.y + constant.cannon.hit.offset.y,
-      y2: cannon.y + constant.cannon.hit.offset.y + 25,
+      y2: cannon.y + constant.cannon.hit.offset.y + constant.cannon.hit.size.h,
     };
 
-    const in_cannon_x = cannon_hit.x1 < shot_hit_x && shot_hit_x < cannon_hit.x2;
-    const in_cannon_y = cannon_hit.y1 < shot_hit_y && shot_hit_y < cannon_hit.y2;
-    const hit = in_cannon_x && in_cannon_y;
+    const hit_x = cannon_hit.x1 < shot_hit_x && shot_hit_x < cannon_hit.x2;
+    const hit_y = cannon_hit.y1 < shot_hit_y && shot_hit_y < cannon_hit.y2;
 
-    if (hit) {
+    if (hit_x && hit_y) {
       kill_cannon(state, cannon, shot);
     }
   }

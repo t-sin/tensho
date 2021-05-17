@@ -85,9 +85,9 @@ const is_hit = (shot, invader) => {
   const shot_hit_y = shot.y;
   const invader_hit = {
     x1: invader.x + constant.invaders.hit.offset.x,
-    x2: invader.x + constant.invaders.hit.offset.x + constant.invaders.hit.width,
-    y1: invader.y - constant.invaders.hit.offset.y,
-    y2: invader.y - constant.invaders.hit.offset.y + 25,
+    x2: invader.x + constant.invaders.hit.offset.x + constant.invaders.hit.size.w,
+    y1: invader.y + constant.invaders.hit.offset.y,
+    y2: invader.y + constant.invaders.hit.offset.y + constant.invaders.hit.size.h,
   };
 
   const in_invader_x = invader_hit.x1 < shot_hit_x && shot_hit_x < invader_hit.x2;
@@ -137,7 +137,7 @@ const update_one_invader = (state, i, j, invader, turn) => {
         shot.state.kind = constant.INVADER_SHOT_MOVING;
         shot.state.changed_at = state.frames;
         shot.x = invader.x;
-        shot.y = invader.y;
+        shot.y = invader.y + constant.invaders.shot.hit.offset.y;
         invader.to_shot = Math.floor(Math.random() * 250 + 100);
       }
     }

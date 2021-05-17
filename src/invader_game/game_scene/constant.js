@@ -107,7 +107,7 @@ export const cannon = {
   speed: { x: 5 },
   hit: {
     offset: { x: -3, y: 20 },
-    width: 20,
+    size: { w: 20, h: 20 },
   },
   shot: {
     hit: {
@@ -124,13 +124,13 @@ export const invaders = {
   speed: { x: 5, y: 20 },
   move_per_frames: 2,
   hit: {
-    offset: { x: 3, y: 20 },
-    width: 20,
+    offset: { x: 3, y: -20 },
+    size: { w: 20, h: 20 },
   },
   size: 25,
   shot: {
     hit: {
-      offset: { x: 10, y: 10 },
+      offset: { x: 10, y: 30 },
     },
   },
 };
