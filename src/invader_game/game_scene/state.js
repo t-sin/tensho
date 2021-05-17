@@ -49,16 +49,18 @@ export const setup_state = () => {
   };
 
   let row, col;
+  const cdot = constant.torchka.dot;
   for (let topleft of constant.torchka.toplefts) {
     row = [];
     for (let j = 0; j < constant.torchka_pattern.length; j++) {
       col = [];
       for (let i = 0; i < constant.torchka_pattern[0].length; i++) {
+        let j2 = Math.abs(constant.torchka_pattern.length - 1 - j);
         let dot = {
-          i, j,
-          x: topleft.x + i * 4,
-          y: topleft.y + j * 4,
-          enabled: true,
+          i: i, j: j2,
+          x: topleft.x + i * cdot.size.w + cdot.offset.x,
+          y: topleft.y + j2 * (cdot.size.h + cdot.offset.y) * cdot.scale.y,
+          enabled: constant.torchka_pattern[j2][i] == '　' ? false : true,
         };
 
         col.push(dot);

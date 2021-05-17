@@ -50,8 +50,13 @@ const draw_cannon_shot = (game, state) => {
 };
 
 const draw_torchka = (game, state) => {
-  game.ctx.font = '3px Noto Sans JP';
+  const cdot = constant.torchka.dot;
+  game.ctx.font = '11px Noto Sans JP';
   game.ctx.fillStyle = '#000';
+  game.ctx.save();
+  if (!game.debug) {
+    game.ctx.scale(cdot.scale.x, cdot.scale.y);
+  }
 
   for (let torchka of state.torchka.array) {
     for (let row of torchka) {
@@ -61,20 +66,32 @@ const draw_torchka = (game, state) => {
         }
 
         if (game.debug) {
+          game.ctx.scale(cdot.scale.x, cdot.scale.y);
           game.ctx.fillStyle = '#000';
         }
 
         const ch = constant.torchka_pattern[dot.j][dot.i];
-        game.ctx.fillText(ch, dot.x, dot.y);
-        game.ctx.fillText(ch, dot.x, dot.y);
+        const { x, y } = {
+          x: dot.x / cdot.scale.x,
+          y: dot.y / cdot.scale.y,
+        };
+        game.ctx.fillText(ch, x, y);
 
         if (game.debug) {
+          game.ctx.restore();
+          game.ctx.save();
           game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-          game.ctx.fillRect(dot.x, dot.y - 3, 3, 3);
+          const { w, h } = {
+            w: cdot.size.w * 0.8,
+            h: cdot.size.h,
+          };
+          game.ctx.fillRect(dot.x + cdot.offset.x, dot.y + cdot.offset.y - h, w, h);
         }
       }
     }
   }
+
+  game.ctx.restore();
 };
 
 const draw_invaders = (game, state) => {
