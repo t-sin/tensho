@@ -130,6 +130,66 @@ const shoot = (state, invader, shot) => {
   invader.to_shot = Math.floor(Math.random() * 250 + 100);
 };
 
+const collide_with_torchka = (state, invader) => {
+  for (let n = 0; n < state.torchka.array.length; n++) {
+    let torchka = state.torchka.array[n];
+
+    const topleft = constant.torchka.toplefts[n];
+    const box = {
+      x: topleft.x,
+      y: topleft.y,
+      w: torchka[0].length * constant.torchka.dot.size.w,
+      h: torchka.length * constant.torchka.dot.size.h * constant.torchka.dot.scale.y,
+    };
+    const ihit = {
+      x: invader.x + constant.invaders.hit.offset.x,
+      y: invader.y + constant.invaders.hit.offset.y,
+      w: constant.invaders.hit.size.w,
+      h: constant.invaders.hit.size.h,
+    };
+
+    let x_in_box, y_in_box;
+    if (box.x < ihit.x) {
+      x_in_box = box.x < ihit.x && ihit.x < box.x + box.w;
+    } else {
+      x_in_box = ihit.x < box.x && box.x < ihit.x + ihit.w;
+    }
+    if (box.y < ihit.y) {
+      y_in_box = box.y < ihit.y && ihit.y < box.y + box.h;
+    } else {
+      y_in_box = ihit.y < box.y && box.y < ihit.y + ihit.h;
+    }
+
+    const cdot = constant.torchka.dot;
+    for (let row of torchka) {
+      for (let dot of row) {
+        const dhit = {
+          x: dot.x + cdot.offset.x,
+          y: dot.y + cdot.offset.y,
+          w: cdot.size.w,
+          h: cdot.size.h,
+        };
+
+        let x_in_invader, y_in_invader;
+        if (ihit.x < dhit.x) {
+          x_in_invader = ihit.x < dhit.x && dhit.x < ihit.x + ihit.w;
+        } else {
+          x_in_invader = dhit.x < ihit.x && ihit.x < dhit.x + dhit.w;
+        }
+        if (ihit.y < dhit.y) {
+          y_in_invader = ihit.y < dhit.y && dhit.y < ihit.y + ihit.h;
+        } else {
+          y_in_invader = dhit.y < ihit.y && ihit.y < dhit.y + dhit.h;
+        }
+
+        if (x_in_invader && y_in_invader) {
+            dot.enabled = false;
+        }
+      }
+    }
+  }
+};
+
 const update_one_invader = (state, i, j, invader, turn) => {
   if (turn) {
     invader.y += constant.invaders.speed.y;
@@ -138,8 +198,11 @@ const update_one_invader = (state, i, j, invader, turn) => {
   if (invader.state.kind == constant.INVADER_DYING) {
     if (state.frames > invader.state.changed_at + 10) {
       invader.state.kind = constant.INVADER_DISABLED;
+      return;
     }
   }
+
+  collide_with_torchka(state, invader);
 
   const cannon_shot_moving = state.cannon.shot.state.kind == constant.CANNON_SHOT_MOVING;
   if (cannon_shot_moving && is_hit(state.cannon.shot, invader)) {
