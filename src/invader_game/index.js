@@ -41,7 +41,7 @@ const setup = () => {
     canvas: canvas,
     ctx: ctx,
     input: input,
-    debug: true,
+    debug: false,
 
     scene: null,
     state: null,
