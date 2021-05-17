@@ -50,10 +50,16 @@ const draw_cannon_shot = (game, state) => {
 };
 
 const draw_torchka = (game, state) => {
-  game.ctx.font = '40px Noto Sans JP';
+  game.ctx.font = '3px Noto Sans JP';
   game.ctx.fillStyle = '#000';
-  for (let n = 0; n < 4; n++) {
-    game.ctx.fillText('門', 120 + 120 * n, 380);
+
+  for (let torchka of state.torchka.array) {
+    for (let row of torchka) {
+      for (let dot of row) {
+        const ch = constant.torchka_pattern[dot.j][dot.i];
+        game.ctx.fillText(ch, dot.x, dot.y);
+      }
+    }
   }
 };
 

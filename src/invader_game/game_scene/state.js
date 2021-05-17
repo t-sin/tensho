@@ -48,6 +48,25 @@ export const setup_state = () => {
     array: [],
   };
 
+  let row, col;
+  for (let topleft of constant.torchka.toplefts) {
+    row = [];
+    for (let j = 0; j < constant.torchka_pattern.length; j++) {
+      col = [];
+      for (let i = 0; i < constant.torchka_pattern[0].length; i++) {
+        let dot = {
+          i, j,
+          x: topleft.x + i * 4,
+          y: topleft.y + j * 4,
+        };
+
+        col.push(dot);
+      }
+      row.push(col);
+    }
+    state.torchka.array.push(row);
+  }
+
   state.invaders = {
     array: [],
     number_of_alive: 0,

@@ -5,6 +5,7 @@ const cannon = require('./cannon.js');
 const invader = require('./invader.js');
 const shot = require('./shot.js');
 const ufo = require('./ufo.js');
+const torchka = require('./torchka.js');
 
 const proc = (game, game_state) => {
   switch (game_state.kind) {
@@ -21,6 +22,7 @@ const proc = (game, game_state) => {
       invader.proc(game, game_state);
     }
     ufo.proc(game, game_state);
+    torchka.proc(game, game_state);
     shot.proc(game, game_state);
     break;
 
