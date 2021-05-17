@@ -264,6 +264,8 @@ shot=${game.input.shot}`, 0, 10);
     acc + (e == null ? 'null, ' : `(${e.i} ${e.j}) `)
   ), 'bottoms=[') + ']';
   game.ctx.fillText(s, 0, 82);
+  game.ctx.fillText(state.debug.msg, 0, 94);
+
 };
 
 export const proc = (game, state) => {

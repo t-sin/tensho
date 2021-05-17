@@ -113,6 +113,7 @@ export const setup_state = () => {
   }
 
   state.debug = {
+    msg: '',
     invaders: {
       alive: {
         most_left: { i: -1, j: -1 },
