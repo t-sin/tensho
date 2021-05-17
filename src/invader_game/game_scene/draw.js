@@ -58,7 +58,8 @@ const draw_torchka = (game, state) => {
     game.ctx.scale(cdot.scale.x, cdot.scale.y);
   }
 
-  for (let torchka of state.torchka.array) {
+  for (let n = 0; n < state.torchka.array.length; n++) {
+    let torchka = state.torchka.array[n];
     for (let row of torchka) {
       for (let dot of row) {
         if (!dot.enabled) {
@@ -88,6 +89,18 @@ const draw_torchka = (game, state) => {
           game.ctx.fillRect(dot.x + cdot.offset.x, dot.y + cdot.offset.y - h, w, h);
         }
       }
+    }
+
+    if (game.debug) {
+      game.ctx.restore();
+      game.ctx.save();
+      game.ctx.fillStyle = 'rgba(0, 0, 255, 0.3)';
+      const { x, y } = constant.torchka.toplefts[n];
+      const { w, h } = {
+        w: torchka[0].length * constant.torchka.dot.size.w,
+        h: torchka.length * constant.torchka.dot.size.h * constant.torchka.dot.scale.y,
+      };
+      game.ctx.fillRect(x - 10, y - 10, w + 10, h + 10);
     }
   }
 
