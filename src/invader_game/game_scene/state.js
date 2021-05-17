@@ -58,6 +58,7 @@ export const setup_state = () => {
           i, j,
           x: topleft.x + i * 4,
           y: topleft.y + j * 4,
+          enabled: true,
         };
 
         col.push(dot);

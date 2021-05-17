@@ -56,6 +56,10 @@ const draw_torchka = (game, state) => {
   for (let torchka of state.torchka.array) {
     for (let row of torchka) {
       for (let dot of row) {
+        if (!dot.enabled) {
+          continue;
+        }
+
         if (game.debug) {
           game.ctx.fillStyle = '#000';
         }
