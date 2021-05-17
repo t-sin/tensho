@@ -28,7 +28,7 @@ $ npm start
 - [x] game condition (win/lose)
 - [x] UFO
 - [x] torchka
-- [ ] title screen
+- [x] title screen
 - [ ] generative art as a background
 - [ ] sound
 
