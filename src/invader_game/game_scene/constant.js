@@ -80,7 +80,7 @@ export const config = {
   rows: 5,
   columns: 11,
   edge: {
-    top: 50,
+    top: 30,
     bottom: 440,
     left: 70,
     right: 570,
