@@ -109,6 +109,27 @@ const kill_invader = (state, shot, i, j, invader) => {
   }
 };
 
+const can_shoot = (state, bottom_idx, i, j, invader) => {
+  const cannon = state.cannon;
+    if (!(bottom_idx != null && i == bottom_idx.i && j == bottom_idx.j)) {
+    return false;
+  }
+
+  const shot = state.invaders.shot[i];
+  return (
+    cannon.state.kind == constant.CANNON_ALIVE &&
+    shot.state.kind == constant.INVADER_SHOT_DISABLED &&
+    invader.to_shot <= 0);
+};
+
+const shoot = (state, invader, shot) => {
+  shot.state.kind = constant.INVADER_SHOT_MOVING;
+  shot.state.changed_at = state.frames;
+  shot.x = invader.x;
+  shot.y = invader.y + constant.invaders.shot.hit.offset.y;
+  invader.to_shot = Math.floor(Math.random() * 250 + 100);
+};
+
 const update_one_invader = (state, i, j, invader, turn) => {
   if (turn) {
     invader.y += constant.invaders.speed.y;
@@ -127,19 +148,9 @@ const update_one_invader = (state, i, j, invader, turn) => {
   }
 
   const { bottoms } = get_alive_idx(state);
-  const cannon = state.cannon;
   for (let bottom of bottoms) {
-    if (bottom != null && i == bottom.i && j == bottom.j) {
-      let shot = state.invaders.shot[i];
-      if (cannon.state.kind == constant.CANNON_ALIVE &&
-        shot.state.kind == constant.INVADER_SHOT_DISABLED &&
-        invader.to_shot <= 0) {
-        shot.state.kind = constant.INVADER_SHOT_MOVING;
-        shot.state.changed_at = state.frames;
-        shot.x = invader.x;
-        shot.y = invader.y + constant.invaders.shot.hit.offset.y;
-        invader.to_shot = Math.floor(Math.random() * 250 + 100);
-      }
+    if (can_shoot(state, bottom, i, j, invader)) {
+      shoot(state, invader, state.invaders.shot[i]);
     }
   }
 
