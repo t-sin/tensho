@@ -58,8 +58,8 @@ export const setup_state = () => {
         let j2 = Math.abs(constant.torchka_pattern.length - 1 - j);
         let dot = {
           i: i, j: j2,
-          x: topleft.x + i * cdot.size.w + cdot.offset.x,
-          y: topleft.y + j2 * (cdot.size.h + cdot.offset.y) * cdot.scale.y,
+          x: topleft.x + i * cdot.size.w * 0.9,
+          y: topleft.y + j2 * cdot.size.h * cdot.scale.y,
           enabled: constant.torchka_pattern[j2][i] == '　' ? false : true,
         };
 

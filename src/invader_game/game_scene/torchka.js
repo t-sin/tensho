@@ -11,6 +11,7 @@ const iterate_torchka_dots = (state, fn) => {
 }
 
 const detect_hit_with_invaders = (state, dot) => {
+
 };
 
 const detect_hit_invader_shot = (state, dot) => {
