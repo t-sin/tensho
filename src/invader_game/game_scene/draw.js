@@ -56,8 +56,18 @@ const draw_torchka = (game, state) => {
   for (let torchka of state.torchka.array) {
     for (let row of torchka) {
       for (let dot of row) {
+        if (game.debug) {
+          game.ctx.fillStyle = '#000';
+        }
+
         const ch = constant.torchka_pattern[dot.j][dot.i];
         game.ctx.fillText(ch, dot.x, dot.y);
+        game.ctx.fillText(ch, dot.x, dot.y);
+
+        if (game.debug) {
+          game.ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
+          game.ctx.fillRect(dot.x, dot.y - 3, 3, 3);
+        }
       }
     }
   }
