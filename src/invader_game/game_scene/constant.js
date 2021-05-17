@@ -130,7 +130,7 @@ export const invaders = {
   size: 25,
   shot: {
     hit: {
-      offset: { x: 10, y: 0 },
+      offset: { x: 10, y: 10 },
     },
   },
 };

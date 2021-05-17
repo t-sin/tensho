@@ -75,8 +75,8 @@ const detect_hit_invader_shot = (game, state) => {
     const cannon_hit = {
       x1: cannon.x + constant.cannon.hit.offset.x,
       x2: cannon.x + constant.cannon.hit.offset.x + constant.cannon.hit.width,
-      y1: cannon.y - constant.cannon.hit.offset.y,
-      y2: cannon.y - constant.cannon.hit.offset.y + 25,
+      y1: cannon.y + constant.cannon.hit.offset.y,
+      y2: cannon.y + constant.cannon.hit.offset.y + 25,
     };
 
     const in_cannon_x = cannon_hit.x1 < shot_hit_x && shot_hit_x < cannon_hit.x2;
