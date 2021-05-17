@@ -13,6 +13,23 @@ $ npm install
 $ npm start
 ```
 
+# TODO
+
+- [x] HTML page
+- [x] draw cannon
+- [x] draw invaders
+- [x] move invaders
+- [x] handle input to move cannon
+- [x] shot from cannon
+- [x] hit detection
+- [x] shot from invaders
+- [x] game condition (win/lose)
+- [x] UFO
+- [x] torchka
+- [ ] title screen
+- [ ] generative art as a background
+- [ ] sound
+
 ## Special thanks
 
 - [Toh Enjoe](https://github.com/EnJoeToh)
