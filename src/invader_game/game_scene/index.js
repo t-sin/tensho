@@ -43,6 +43,7 @@ const proc = (game, game_state) => {
     break;
 
   case constant.GAME_PLAYER_DEFEATED:
+    draw.proc(game, game_state);
     const message = 'G  A  M  E    O  V  E  R';
 
     game.ctx.fillStyle = '#eee';

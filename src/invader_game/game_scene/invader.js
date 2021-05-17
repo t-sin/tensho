@@ -209,9 +209,31 @@ export const init = (game, state) => {
   }
 };
 
+const invader_reached_ground = (game, state) => {
+  if (state.kind != constant.GAME_PLAYING) {
+    return;
+  }
+
+  let bottoms = [].concat(get_alive_idx(state).bottoms);
+  bottoms.sort((a, b) => (a == null ? 1 : b == null ? -1 : b.j < a.j ? 1 : -1));
+
+  if (bottoms[0] != null) {
+    const invader = state.invaders.array[index(bottoms[0].i, bottoms[0].j)];
+
+    if (invader.y > constant.config.edge.bottom - 20) {
+      state.kind = constant.GAME_PLAYER_DEFEATED;
+      state.changed_at = state.frames;
+      state.cannon.state.kind = constant.CANNON_DYING;
+      state.cannon.state.changed_at = state.frames;
+    }
+  }
+};
+
 export const proc = (game, state) => {
   reset_alive_checker();
   iterate_all_invaders(check_one_invader, state);
+
+  invader_reached_ground(game, state);
 
   const { first: first_invader_idx } = get_alive_idx(state);
   const on_first_invader_moving = state.invaders.current == first_invader_idx;
