@@ -10,10 +10,6 @@ const iterate_torchka_dots = (state, fn) => {
   }
 }
 
-const detect_hit_with_invaders = (state, dot) => {
-
-};
-
 const detect_hit_invader_shot = (state, dot) => {
   const cdot = constant.torchka.dot;
   if (!dot.enabled) {
@@ -84,7 +80,8 @@ const detect_hit_cannon_shot = (state, dot) => {
 };
 
 const detect_hit = (state, dot) => {
-  detect_hit_with_invaders(state, dot);
+  // this has done in invader.js
+  //detect_hit_with_invaders(state, dot);
   detect_hit_invader_shot(state, dot);
   detect_hit_cannon_shot(state, dot);
 };
