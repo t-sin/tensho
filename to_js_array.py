@@ -28,10 +28,10 @@ if __name__ == '__main__':
 
     #print(indexed)
 
-    print('const logo = {')
+    print('export const data = [')
     for row in indexed:
-        print('  ', end='')
+        print('  [', end='')
         for v in row:
             print('{:>2,},'.format(v), end='')
-        print()
-    print(';')
+        print('],')
+    print('];')
