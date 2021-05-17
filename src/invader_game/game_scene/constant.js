@@ -137,6 +137,6 @@ export const torchka = {
   dot: {
     scale: { x: 1, y: 0.4 },
     offset: { x: 2, y: 0 },
-    size: { w: 8, h: 12 },
+    size: { w: 10, h: 12 },
   },
 };
