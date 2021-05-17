@@ -84,14 +84,14 @@ const is_hit = (shot, invader) => {
   const shot_hit_x = shot.x + constant.cannon.shot.hit.offset.x;
   const shot_hit_y = shot.y;
   const invader_hit = {
-    x1: invader.x + constant.invaders.hit.offset.x,
-    x2: invader.x + constant.invaders.hit.offset.x + constant.invaders.hit.size.w,
-    y1: invader.y + constant.invaders.hit.offset.y,
-    y2: invader.y + constant.invaders.hit.offset.y + constant.invaders.hit.size.h,
+    x: invader.x + constant.invaders.hit.offset.x,
+    y: invader.y + constant.invaders.hit.offset.y,
+    w: constant.invaders.hit.size.w,
+    h: constant.invaders.hit.size.h,
   };
 
-  const in_invader_x = invader_hit.x1 < shot_hit_x && shot_hit_x < invader_hit.x2;
-  const in_invader_y = invader_hit.y1 < shot_hit_y && shot_hit_y < invader_hit.y2;
+  const in_invader_x = invader_hit.x < shot_hit_x && shot_hit_x < invader_hit.x + invader_hit.w;
+  const in_invader_y = invader_hit.y < shot_hit_y && shot_hit_y < invader_hit.y + invader_hit.h;
   const hit = in_invader_x && in_invader_y;
 
   return hit;
