@@ -45,7 +45,7 @@ const draw = (game, state) => {
 
     game.ctx.font = '15px Noto Serif JP';
     game.ctx.fillText(`最高得点　${nf.format(game.hiscore)}`, 250, 380);
-    if (Math.sin(state.frames / 15) > 0) {
+    if (Math.sin(state.frames / 10) > 0) {
       game.ctx.fillText(`Press J key`, 250, 400);
     }
   }
@@ -73,6 +73,13 @@ const proc = (game, state) => {
     state.ready = true;
     if (game.input.shot) {
       return true;
+    }
+
+    if (Math.sin(state.frames / 40) > 0) {
+      if (state.frames % 5 == 0) {
+        //state.disp_v = state.disp_v == -1 ? 0 : -1;
+        state.char_pos = (state.char_pos + 1) % char1.length;
+      }
     }
   }
 
