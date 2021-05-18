@@ -25,4 +25,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{"./game_scene/":"Y5iu","./title_scene/":"cBgw"}],"hzWk":[function(require,module,exports) {
 var r=require("./invader_game/");r.start();
 },{"./invader_game/":"PKfW"}]},{},["hzWk"], null)
-//# sourceMappingURL=/tensho.e2a10862.js.map
+//# sourceMappingURL=tensho.e2a10862.js.map
